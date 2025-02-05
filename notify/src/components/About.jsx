@@ -2,13 +2,11 @@ import React, { useEffect } from 'react'
 import noteContext from '../context/notes/NoteContext'
 import { useContext } from 'react'
 const About = () => {
-  const a = useContext(noteContext)
-  useEffect(()=>{
-    a.update();
-  },[])
+ 
+
   return (
     <div>
-    This is about {a.state.name}
+   This is about
     </div>
   )
 }

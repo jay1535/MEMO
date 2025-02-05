@@ -3,25 +3,21 @@ import noteContext from "./NoteContext";
 
 
 const NoteState = (props) =>{
-    const s1 ={
-        "name" : "Harry",
-        "class":"5b"
-    }
-    const [state, setState] = useState(s1);
-    const update = () =>{
-      setTimeout(()=>{
-        setState({
-          "name" : "Larry",
-          "class":"6b"
-        })
-  
-      } ,1000);
-    }
-
-
+   const notesInitial=[
+      {
+        "_id": "677ff8e5096e88508c025d2c",
+        "user": "6776b5fc88d524f453cf1543",
+        "title": "My title",
+        "description": "Description is here for yt",
+        "tag": "You tube",
+        "date": "2025-01-09T16:27:17.729Z",
+        "__v": 0
+      }
+    ]
+    const [notes, setNotes] = useState(notesInitial);
     
   return (
-    <noteContext.Provider value={{state, update}}>
+    <noteContext.Provider value={{notes,setNotes}}>
  {props.children}
     </noteContext.Provider>
   )
