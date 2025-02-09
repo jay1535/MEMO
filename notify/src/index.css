@@ -10,6 +10,7 @@ body{
 .container{
     background: hsl(48, 100%, 78%);
     border-radius: 20px;
+    padding: 20px;
 }
 .navbar{
     font-size: 18px;
@@ -17,6 +18,7 @@ body{
     border-radius: 20px;
     margin-top:10px;
     margin-bottom: 15px;
+   
 }
 .navbar:hover{
   
@@ -26,21 +28,22 @@ body{
 .btn{
     background-color:rgb(255, 103, 38);
     color:white;
-    width:160px;
+    width:120px;
     height:40px;
     border:3px solid rgb(221, 84, 4);
-    border-radius: 10px;
+    border-radius: 15px;
+   
     
 }
 .btn:hover{
-    background: rgb(5, 164, 5);
+    background: linear-gradient(black, green);
     color:white;
     border: 3px solid rgb(18, 179, 4);
 }
 .card-title{
     font-size: 24px;
     color:rgb(33, 32, 32);
-    text-decoration:2px solid rgb(33, 33, 33)   underline;
+    text-decoration:2px solid rgb(231, 6, 6)   underline;
 }
 .card-text{
     color:rgb(6, 6, 6);
@@ -50,6 +53,7 @@ body{
     border-radius: 30px;
     background: rgba(var(--bs-warning-rgb));
 }
+
 
 i{
     font-size: 20px;
@@ -62,4 +66,11 @@ i{
 background: rgb(255, 140, 9);
 transform:translateY(-10px);
 transition:all 0.5s ease-in;
+}
+
+.box{
+    width: 500px;
+    background: rgb(255, 190, 99);
+    border-radius: 25px;
+    padding: 15px;
 }

@@ -2,12 +2,12 @@ import AddNote from "./AddNote";
 
 
 
-const Home = () => {
+const Home = (props) => {
   
- 
+const { showAlert}= props
   return (
     <>
-    <AddNote/>
+    <AddNote showAlert={showAlert}/>
     
     </>
   );

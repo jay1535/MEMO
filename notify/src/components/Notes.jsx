@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import noteContext from "../context/notes/NoteContext";
 import Noteitem from "./Noteitem";
 
-const Notes = () => {
+const Notes = (props) => {
   const context = useContext(noteContext);
   const { notes, getNotes,editNote} = context;
 
@@ -21,12 +21,14 @@ const Notes = () => {
   const updateNote = (currentnote) => {
     ref.current.click();
     setNote({id:currentnote._id,etitle:currentnote.title, edescription:currentnote.description, etag:currentnote.tag});
+    
   };
 
   const handleClick = (e) => {
     console.log("Updating the note", note)
     editNote(note.id, note.etitle, note.edescription, note.etag)
     refClose.current.click();
+    props.showAlert("Notes updated successfully🎉","success")
     
   };
   const onChange = (e) => {
@@ -36,10 +38,10 @@ const Notes = () => {
   return (
     <div>
       <div className="row p-3 my-3">
-        <h4>Your notes</h4>
+        <h4>Your notes📖..</h4>
         {notes.map((note) => {
           return (
-            <Noteitem key={note._id} updateNote={updateNote} note={note} />
+            <Noteitem key={note._id} updateNote={updateNote} showAlert={props.showAlert}note={note} />
           );
         })}
       </div>
@@ -129,7 +131,7 @@ const Notes = () => {
                 Close
               </button>
               <button type="button" className="btn btn-primary"  onClick={handleClick}>
-                Update Notes
+                Update                                            
               </button>
             </div>
           </div>

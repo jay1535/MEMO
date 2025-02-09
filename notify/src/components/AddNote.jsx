@@ -2,7 +2,7 @@ import React, { useContext, useState} from "react";
 
 import noteContext from "../context/notes/NoteContext";
 
-const AddNote = () => {
+const AddNote = (props) => {
   const context = useContext(noteContext);
   const { addNote } = context;
  
@@ -10,11 +10,17 @@ const AddNote = () => {
   const [note, setNote] = useState({
     title: "",
     description: "",
-    tag: "defult",
+    tag: "",
   });
   const handleClick = (e) => {
     e.preventDefault();
     addNote(note.title, note.description, note.tag);
+    props.showAlert("Notes added Successfully!!🎉","success")
+    setNote({
+      title: "",
+      description: "",
+      tag: ""
+    })
   };
   const onChange = (e) => {
     setNote({ ...note, [e.target.id]: e.target.value });
@@ -28,9 +34,10 @@ const AddNote = () => {
         </label>
         <input
           type="text"
+          value={note.title}
           className="form-control"
           id="title"
-          placeholder="Add title of Your Note"
+          placeholder="Add title.."
           onChange={onChange}
           required
         />
@@ -41,9 +48,10 @@ const AddNote = () => {
         </label>
         <input
           type="text"
+          value={note.description}
           className="form-control"
           id="description"
-          placeholder="Add details here"
+          placeholder="Add description.."
           onChange={onChange}
           required
         />
@@ -54,6 +62,7 @@ const AddNote = () => {
         </label>
         <input
           type="text"
+          value={note.tag}
           className="form-control"
           id="tag"
           placeholder=""

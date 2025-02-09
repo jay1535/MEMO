@@ -16,18 +16,19 @@ router.post('/createuser',[
      body('email','Enter a valid email').isEmail(),
      body('password','Password must be of atleast 5 characters').isLength({ min: 5 }),
 ],async (req,res)=>{
+  let success = false;
 
      //If there are error return bad req and the errors 
 const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({success, errors: errors.array() });
     }
 
     //user with same email
 try{
     let user = await User.findOne({email:req.body.email})
     if(user){
-     return res.status(400).json({error:"Sorry the user with this email already exists"})
+     return res.status(400).json({success,error:"Sorry the user with this email already exists"})
     }
     // hash password
 
@@ -47,8 +48,8 @@ try{
       }
    }
  const authToken= jwt.sign(data, JWT_SECRET)
-   
-    res.json(authToken)
+   success=true;
+    res.json({success,authToken})
   }
 
     catch(error){
@@ -67,8 +68,10 @@ router.post('/login',[
   body('password','Password Cannot be blank').exists(),
 
 ],async (req,res)=>{
+  let success = false
   const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      success = false;
       return res.status(400).json({ errors: errors.array() });
     }
 
@@ -80,7 +83,8 @@ router.post('/login',[
     }
     const passwordCompare = await bcrypt.compare(password, user.password);
     if(!passwordCompare){
-      return res.status(400).json({error:"Please try to login with correct username or password"});
+      success = false;
+      return res.status(400).json({success,error:"Please try to login with correct username or password"});
     }
 
     const data ={
@@ -89,8 +93,9 @@ router.post('/login',[
       }
     }
     const authToken= jwt.sign(data, JWT_SECRET)
+    success = true;
  
-    res.json(authToken)
+    res.json({success,authToken})
   }
   catch(error){
     console.error(error.message);
@@ -103,7 +108,7 @@ router.post('/login',[
   // Logged in user Details # Route 3
   router.post('/getuser',fetchuser,async (req,res)=>{
 try {
-  userId = req.user.id;
+ const userId = req.user.id;
   const user = await User.findById(userId).select("-password");
   res.send(user)
 }  catch(error){

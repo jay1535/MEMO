@@ -1,15 +1,18 @@
-import React,{useEffect} from 'react';
-import { Link,useLocation } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   let location = useLocation();
-  useEffect(()=>{
-    console.log(location.pathname)
-  },[location]);
+  useEffect(() => {
+    console.log(location.pathname);
+  }, [location]);
+
   return (
     <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">Notify</Link>
+        <Link className="navbar-brand" to="/">
+          Memo
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -24,15 +27,37 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Link className={`nav-link ${location.pathname==="/"?"active":""}`} aria-current="page" to="/">Home</Link>
+              <Link
+                className={`nav-link ${location.pathname === "/" ? "active" : ""}`}
+                aria-current="page"
+                to="/"
+              >
+                Home
+              </Link>
             </li>
             <li className="nav-item">
-              <Link className={`nav-link ${location.pathname==="/about"?"active":""}`} to="/about">About</Link>
+              <Link
+                className={`nav-link ${location.pathname === "/about" ? "active" : ""}`}
+                to="/about"
+              >
+                About
+              </Link>
             </li>
             <li className="nav-item">
-              <Link className={`nav-link ${location.pathname==="/notes"?"active":""}`} to="/notes">Notes</Link>
+              <Link
+                className={`nav-link ${location.pathname === "/notes" ? "active" : ""}`}
+                to="/notes"
+              >
+                Notes
+              </Link>
             </li>
           </ul>
+
+          {/* Right-aligned buttons */}
+          <div className="ms-auto">
+            <Link className="btn btn-primary mx-1" to="/login" type="button">Login</Link>
+            <Link className="btn btn-success mx-1" to="/signup" type="button">SignUp</Link>
+          </div>
         </div>
       </div>
     </nav>
