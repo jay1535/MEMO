@@ -20,8 +20,9 @@ const Login = (props) => {
 
     if (json.success) {
       localStorage.setItem("token", json.authToken);
-      navigate("/");
       props.showAlert("Logged-in Successfully🎉","success");
+      navigate("/");
+     
     } else {
       props.showAlert("⚠️Invalid email or password. Please try again.","danger");
     }
@@ -33,6 +34,7 @@ const Login = (props) => {
 
   return (
     <div className="box">
+      <h2 className="text-center text-danger">Login</h2>
     <form onSubmit={handleSubmit}>
       <div className="mb-3">
         <label htmlFor="email" className="form-label">

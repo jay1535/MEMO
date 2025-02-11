@@ -39,6 +39,7 @@ const SignUp = (props) => {
 
   return (
     <div className="box ms-auto" onSubmit={handleSubmit}>
+        <h2 className="text-center text-danger">Signup</h2>
     <form>
     <div className="mb-3">
       <label htmlFor="name" className="form-label">Username</label>

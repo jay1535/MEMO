@@ -1,11 +1,19 @@
 import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   let location = useLocation();
+
+  let navigate = useNavigate();
   useEffect(() => {
     console.log(location.pathname);
   }, [location]);
+
+  const handleLogout =()=>{
+    localStorage.removeItem('token');
+    navigate("/login");
+  }
 
   return (
     <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
@@ -54,10 +62,10 @@ const Navbar = () => {
           </ul>
 
           {/* Right-aligned buttons */}
-          <div className="ms-auto">
+         { !localStorage.getItem("token")?<div className="ms-auto">
             <Link className="btn btn-primary mx-1" to="/login" type="button">Login</Link>
             <Link className="btn btn-success mx-1" to="/signup" type="button">SignUp</Link>
-          </div>
+          </div>: <Link onClick={handleLogout} className="btn btn-success mx-1 ms-auto" to="/signup" type="button">Logout</Link>}
         </div>
       </div>
     </nav>
