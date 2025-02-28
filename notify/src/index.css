@@ -1,6 +1,6 @@
 
 body{
-    background: rgb(255, 253, 226);
+    background: rgb(214, 255, 244);
     color:rgb(23, 22, 22);
     font-size: 20px;
     margin:5px;
@@ -8,7 +8,7 @@ body{
     
 }
 .container{
-    background: hsl(48, 100%, 78%);
+    background: hsl(182, 100%, 74%);
     border-radius: 20px;
     padding: 20px;
 }
@@ -26,17 +26,17 @@ body{
 }
 
 .btn{
-    background-color:rgb(255, 103, 38);
+    background-color:rgb(255, 0, 166);
     color:white;
     width:120px;
     height:40px;
-    border:3px solid rgb(221, 84, 4);
+    border:3px solid rgb(255, 76, 234);
     border-radius: 15px;
    
     
 }
 .btn:hover{
-    background: linear-gradient(black, green);
+    background: linear-gradient(rgb(143, 143, 143), green);
     color:white;
     border: 3px solid rgb(18, 179, 4);
 }
@@ -45,6 +45,7 @@ body{
     color:rgb(33, 32, 32);
     text-decoration:2px solid rgb(231, 6, 6)   underline;
 }
+
 .card-text{
     color:rgb(6, 6, 6);
     font-size: 16px;
@@ -63,14 +64,14 @@ i{
     
 }
 .card:hover{
-background: rgb(255, 140, 9);
+background: rgb(255, 124, 54);
 transform:translateY(-10px);
 transition:all 0.5s ease-in;
 }
 
 .box{
     width: 500px;
-    background: rgb(255, 190, 99);
+    background: rgb(218, 84, 255);
     border-radius: 25px;
     padding: 15px;
 }
