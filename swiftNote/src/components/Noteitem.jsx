@@ -3,7 +3,7 @@
 import React, { useContext } from "react";
 import noteContext from "../context/notes/NoteContext";
 
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, Tag, Clock } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -13,65 +13,105 @@ const NoteItem = ({ note, updateNote, showAlert }) => {
   return (
     <Card
       className="
-        p-6
-        rounded-2xl
-        bg-card/40
-        backdrop-blur-xl
-        border border-border
-        shadow-sm
-        hover:shadow-md
+        p-5 rounded-2xl
+        bg-card/60 backdrop-blur-xl
+        border-3 border-border shadow-sm
+        hover:shadow-md 
         transition-all duration-300
-        hover:-translate-y-1
-        text-foreground
+         gap-3
 
-        h-[250px]
-        flex flex-col justify-between
+        h-[270px] flex flex-col justify-between
       "
     >
       {/* Title */}
-      <CardHeader className="p-0">
-        <CardTitle className="text-2xl font-semibold text-primary truncate">
+      <CardHeader className="p-0 ">
+        <CardTitle
+          className="
+            text-2xl font-bold leading-snug tracking-tight 
+            bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600
+            bg-clip-text text-transparent
+            line-clamp-1 select-none
+          "
+        >
           {note.title}
         </CardTitle>
       </CardHeader>
 
       {/* Description */}
-      <CardContent className="p-0 mt-3 flex flex-col justify-between h-full">
-        <p className="text-muted-foreground text-sm leading-relaxed line-clamp-4">
+      <CardContent className="p-0 mt-2">
+        <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
           {note.description}
         </p>
 
-        {/* Buttons */}
-        <div className="flex gap-4 mt-4">
-          {/* Edit Button */}
+        {/* Metadata */}
+        <div className="mt-4 flex items-center justify-between text-xs">
+
+          {/* Tag */}
+          <div
+            className="
+              flex items-center gap-1 
+              px-2 py-[3px]
+              rounded-full 
+              bg-primary/10 text-primary
+              border border-primary/20 
+              font-medium text-[11px]
+              w-fit
+            "
+          >
+            <Tag className="w-3 h-3" />
+            {note.tag || "General"}
+          </div>
+
+          {/* Last Updated */}
+          <div className="flex items-center gap-1 text-muted-foreground">
+            <Clock className="w-3 h-3" />
+            {new Date(note.date).toLocaleDateString("en-IN", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })}
+          </div>
+        </div>
+
+        {/* Buttons: Left & Right */}
+        <div
+          className="
+            mt-5 pt-3 
+            border-t border-border/40 
+            flex items-center justify-between
+          "
+        >
+          {/* Edit */}
           <Button
             variant="outline"
-            size="icon"
             onClick={() => updateNote(note)}
             className="
+              flex items-center gap-2 
               border-primary text-primary
-              hover:bg-primary hover:text-primary-foreground
-              transition-all duration-300
+              hover:bg-primary hover:text-white
+              transition-all
             "
           >
-            <Pencil className="w-5 h-5" />
+            <Pencil className="w-4 h-4" />
+            Edit
           </Button>
 
-          {/* Delete Button */}
+          {/* Delete */}
           <Button
             variant="outline"
-            size="icon"
             onClick={() => {
               deleteNote(note._id);
-              showAlert("Note deleted successfully", "success");
+              showAlert('Note deleted successfully', 'success');
             }}
             className="
-              border-red-500 text-red-500 
-              hover:bg-red-600 hover:text-white 
-              transition-all duration-300
+              flex items-center gap-2 
+              border-red-500 text-red-500
+              hover:bg-red-600 hover:text-white
+              transition-all
             "
           >
-            <Trash2 className="w-5 h-5" />
+            <Trash2 className="w-4 h-4" />
+            Delete
           </Button>
         </div>
       </CardContent>

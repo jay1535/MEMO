@@ -15,7 +15,6 @@ import {
 
 import {
   Dialog,
-  DialogTrigger,
   DialogContent,
   DialogHeader,
   DialogFooter,
@@ -72,42 +71,70 @@ const Notes = ({ showAlert }) => {
   };
 
   return (
-    <div className="min-h-screen w-full flex justify-center items-start px-6 py-10">
+    <div className="min-h-screen w-full flex justify-center items-start px-6 py-12">
 
       {/* Outer Notes Card */}
       <Card
         className="
           w-full max-w-[1400px] 
-          bg-card/80 border border-border 
-          backdrop-blur-xl rounded-2xl 
-          shadow-[0_0_25px_rgba(140,0,255,0.15)]
+          bg-card/60 border border-border 
+          backdrop-blur-xl rounded-3xl 
+          shadow-[0_0_35px_rgba(140,0,255,0.25)]
+          transition-all duration-300
         "
       >
+
+        {/* Heading */}
         <CardHeader>
-          <CardTitle className="text-2xl font-bold text-primary drop-shadow-[0_0_12px_rgba(140,0,255,0.4)]">
-            Your Notes 📖
+          <CardTitle
+            className="
+              text-4xl font-bold text-center
+              drop-shadow-[0_0_20px_rgba(140,0,255,0.55)]
+              bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600 
+              bg-clip-text text-transparent
+            "
+          >
+            Your Personal Notes Hub ✨
           </CardTitle>
+
+          <p className="text-center text-muted-foreground mt-3">
+            Keep your ideas safe, organized, and always within reach.
+          </p>
         </CardHeader>
 
         {/* Notes Grid */}
-        <CardContent className="h-[65vh] overflow-y-auto pr-3 custom-scroll">
+        <CardContent className="h-[65vh] overflow-y-auto pr-3 custom-scroll mt-2">
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {notes.length === 0 ? (
-              <p className="text-muted-foreground">
-                You haven’t created any notes yet.
+          {notes.length === 0 ? (
+            <div className="w-full text-center py-20">
+              <h3
+                className="
+                  text-2xl font-semibold 
+                  bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600 
+                  bg-clip-text text-transparent
+                  drop-shadow-[0_0_10px_rgba(140,0,255,0.4)]
+                "
+              >
+                No Notes Yet 📭
+              </h3>
+
+              <p className="mt-2 text-muted-foreground text-base">
+                Start by creating your first note —  
+                <span className="text-primary font-medium">your ideas are waiting!</span>
               </p>
-            ) : (
-              notes.map((n) => (
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
+              {notes.map((n) => (
                 <Noteitem
                   key={n._id}
                   updateNote={updateNote}
                   showAlert={showAlert}
                   note={n}
                 />
-              ))
-            )}
-          </div>
+              ))}
+            </div>
+          )}
 
         </CardContent>
       </Card>
@@ -116,13 +143,21 @@ const Notes = ({ showAlert }) => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
           className="
-            bg-card border border-border text-card-foreground
-            backdrop-blur-xl rounded-2xl shadow-xl
+            bg-card/80 border border-border text-card-foreground
+            backdrop-blur-2xl rounded-3xl shadow-2xl
+            transition-all duration-500
           "
         >
           <DialogHeader>
-            <DialogTitle className="text-primary">
-              Edit Your Note
+            <DialogTitle
+              className="
+                text-xl font-bold
+                bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600 
+                bg-clip-text text-transparent
+                drop-shadow-[0_0_10px_rgba(140,0,255,0.4)]
+              "
+            >
+              Edit Your Note ✏️
             </DialogTitle>
           </DialogHeader>
 
@@ -166,22 +201,33 @@ const Notes = ({ showAlert }) => {
 
           </div>
 
-          <DialogFooter>
+          <DialogFooter className="flex justify-between mt-3">
+
             <Button
               variant="outline"
               onClick={() => setOpen(false)}
-              className="border-primary text-primary hover:bg-primary/20"
+              className="
+                border-primary text-primary 
+                hover:bg-primary/20 hover:text-primary 
+                transition-all
+              "
             >
-              Close
+              Cancel
             </Button>
 
             <Button
               onClick={handleClick}
               disabled={!note.etitle || !note.edescription}
-              className="bg-primary text-primary-foreground hover:bg-primary/80"
+              className="
+                bg-primary text-primary-foreground 
+                hover:bg-primary/80 
+                shadow-[0_0_10px_rgba(140,0,255,0.5)]
+                transition-all
+              "
             >
-              Update
+              Save Changes
             </Button>
+
           </DialogFooter>
 
         </DialogContent>

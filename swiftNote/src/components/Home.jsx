@@ -18,7 +18,7 @@ export default function LandingPage() {
     <div className="min-h-screen w-full bg-background text-foreground">
 
       {/* HERO SECTION */}
-      <section className="flex flex-col items-center text-center px-5 pt-32 pb-20">
+      <section className="flex flex-col  items-center text-center px-5 pt-32 pb-20">
         <h1 className="text-4xl md:text-6xl font-bold leading-tight max-w-4xl drop-shadow-[0_0_25px_rgba(140,0,255,0.35)]">
 
           Bring Clarity to Your Ideas with{" "}
@@ -26,7 +26,7 @@ export default function LandingPage() {
           {/* 🌈 BEAUTIFUL GRADIENT TEXT EFFECT */}
           <span
             className="
-              bg-gradient-to-r 
+              bg-linear-to-r 
               from-purple-500 
               via-fuchsia-500 
               to-purple-600 
@@ -44,12 +44,10 @@ export default function LandingPage() {
           stay organized, and think effortlessly.
         </p>
 
-        {/* 🌟 NEW INTERACTIVE ELEMENT (No Buttons) */}
-        {/* 🔥 Animated Gradient Progress Bar */}
-<div className="mt-10 w-56 h-2 rounded-full bg-primary/20 overflow-hidden shadow-[0_0_20px_4px_rgba(140,0,255,0.4)]">
-  <div className="h-full w-full bg-gradient-to-r from-primary via-fuchsia-500 to-primary animate-progress" />
-</div>
-
+        {/* Animated Gradient Progress Bar */}
+        <div className="mt-10 w-56 h-2 rounded-full bg-primary/20 overflow-hidden shadow-[0_0_20px_4px_rgba(140,0,255,0.4)]">
+          <div className="h-full w-full bg-linear-to-r from-primary via-fuchsia-500 to-primary animate-progress" />
+        </div>
 
         <p className="mt-4 text-muted-foreground text-sm">
           Log in or sign up to begin your note-taking journey.
@@ -59,7 +57,21 @@ export default function LandingPage() {
       {/* HOW IT WORKS */}
       <section className="px-6 py-16">
         <h2 className="text-3xl md:text-4xl font-bold text-center">
-          How <span className="text-primary">SwiftNotes</span> Helps You Stay Organized
+          How{" "}
+          <span
+            className="
+              bg-linear-to-r 
+              from-purple-500 
+              via-fuchsia-500 
+              to-purple-600 
+              bg-clip-text 
+              text-transparent
+              drop-shadow-[0_0_10px_rgba(140,0,255,0.4)]
+            "
+          >
+            SwiftNotes
+          </span>{" "}
+          Helps You Stay Organized
         </h2>
 
         <p className="text-center mt-3 text-muted-foreground max-w-2xl mx-auto">
@@ -88,7 +100,20 @@ export default function LandingPage() {
       {/* FEATURES */}
       <section className="px-6 py-16 bg-card/30 backdrop-blur-sm">
         <h2 className="text-3xl md:text-4xl font-bold text-center">
-          Why People Love <span className="text-primary">SwiftNotes</span>
+          Why People Love{" "}
+          <span
+            className="
+              bg-linear-to-r 
+              from-purple-500 
+              via-fuchsia-500 
+              to-purple-600 
+              bg-clip-text 
+              text-transparent
+              drop-shadow-[0_0_10px_rgba(140,0,255,0.4)]
+            "
+          >
+            SwiftNotes
+          </span>
         </h2>
 
         <p className="text-center mt-3 text-muted-foreground max-w-2xl mx-auto">
@@ -131,8 +156,23 @@ export default function LandingPage() {
 
       {/* FOOTER */}
       <footer className="py-8 text-center border-t border-border text-sm text-muted-foreground">
-        © {new Date().getFullYear()} SwiftNotes — Built with passion by Jayant
+        © {new Date().getFullYear()}{" "}
+        <span
+          className="
+            bg-linear-to-r 
+            from-purple-500 
+            via-fuchsia-500 
+            to-purple-600 
+            bg-clip-text 
+            text-transparent
+            drop-shadow-[0_0_10px_rgba(140,0,255,0.4)]
+          "
+        >
+          SwiftNotes
+        </span>{" "}
+        — Built with passion by Jayant
       </footer>
+
     </div>
   );
 }

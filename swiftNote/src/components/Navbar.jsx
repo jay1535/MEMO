@@ -37,7 +37,7 @@ const Navbar = () => {
           border-b border-[#2b1840]
           px-6 py-4 
           shadow-lg
-          sticky top-0 z-50
+           top-0 z-50
           backdrop-blur-xl
         "
       >
@@ -53,7 +53,13 @@ const Navbar = () => {
                 alt="SwiftNotes Logo"
                 className="w-10 h-10 drop-shadow-[0_0_8px_rgba(182,136,255,0.6)]"
               />
-              <span className="text-3xl font-extrabold tracking-wide text-[#b68aff] hover:text-white transition">
+              <span className="text-3xl font-extrabold tracking-wide    bg-linear-to-r 
+              from-purple-500 
+              via-fuchsia-500 
+              to-purple-600 
+              bg-clip-text 
+              text-transparent
+              drop-shadow-[0_0_10px_rgba(140,0,255,0.4)] transition ">
                 Swift<span className="text-white">Notes</span>
               </span>
             </Link>
@@ -103,8 +109,8 @@ const Navbar = () => {
                 <Link to="/login">
                   <Button
                     className="
-                      bg-gradient-to-r from-[#7b2ff7] to-[#c084fc]
-                      text-white rounded-xl px-4 font-semibold
+                      bg-linear-to-r from-[#7b2ff7] to-[#c084fc]
+                      text-white rounded-lg px-4 font-semibold
                       shadow-[0_0_12px_rgba(139,92,246,0.5)]
                       hover:shadow-[0_0_18px_rgba(139,92,246,0.7)]
                       hover:scale-[1.03] transition-all
@@ -134,7 +140,7 @@ const Navbar = () => {
               <Button
                 onClick={handleLogout}
                 className="
-                  bg-gradient-to-r from-[#d00049] to-[#ff4f79]
+                  bg-linear-to-r from-[#d00049] to-[#ff4f79]
                   text-white rounded-xl px-4 font-semibold
                   hover:scale-[1.03]
                   shadow-[0_0_12px_rgba(255,79,121,0.45)]
@@ -238,7 +244,7 @@ const Navbar = () => {
             <Link to="/login" onClick={() => setOpenMenu(false)}>
               <Button
                 className="
-                  w-full bg-gradient-to-r from-[#7b2ff7] to-[#c084fc]
+                  w-full bg-linear-to-r from-[#7b2ff7] to-[#c084fc]
                   text-white rounded-xl font-semibold
                   shadow-[0_0_12px_rgba(139,92,246,0.5)]
                 "
@@ -264,7 +270,7 @@ const Navbar = () => {
           <Button
             onClick={handleLogout}
             className="
-              w-full bg-gradient-to-r from-[#d00049] to-[#ff4f79]
+              w-full bg-linear-to-r from-[#d00049] to-[#ff4f79]
               text-white rounded-xl font-semibold
             "
           >
