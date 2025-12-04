@@ -2,14 +2,9 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-
-/**
- * SignUp.jsx
- * Purple 60-30-10 themed signup form (dark mode).
- * Keeps existing API logic; only UI/theme updated.
- */
 
 const SignUp = (props) => {
   const [credentials, setCredentials] = useState({
@@ -32,11 +27,14 @@ const SignUp = (props) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/auth/createuser`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/createuser`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password }),
+        }
+      );
 
       const json = await response.json();
 
@@ -91,10 +89,8 @@ const SignUp = (props) => {
             className="
               w-full px-4 py-3 rounded-xl
               bg-popover text-popover-foreground
-              border border-border
-              placeholder:opacity-60
-              focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary
-              transition
+              border border-border placeholder:opacity-60
+              focus:outline-none focus:ring-2 focus:ring-ring
             "
           />
         </div>
@@ -114,10 +110,8 @@ const SignUp = (props) => {
             className="
               w-full px-4 py-3 rounded-xl
               bg-popover text-popover-foreground
-              border border-border
-              placeholder:opacity-60
-              focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary
-              transition
+              border border-border placeholder:opacity-60
+              focus:outline-none focus:ring-2 focus:ring-ring
             "
           />
         </div>
@@ -137,10 +131,8 @@ const SignUp = (props) => {
             className="
               w-full px-4 py-3 rounded-xl
               bg-popover text-popover-foreground
-              border border-border
-              placeholder:opacity-60
-              focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary
-              transition
+              border border-border placeholder:opacity-60
+              focus:outline-none focus:ring-2 focus:ring-ring
             "
           />
         </div>
@@ -160,10 +152,8 @@ const SignUp = (props) => {
             className="
               w-full px-4 py-3 rounded-xl
               bg-popover text-popover-foreground
-              border border-border
-              placeholder:opacity-60
-              focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary
-              transition
+              border border-border placeholder:opacity-60
+              focus:outline-none focus:ring-2 focus:ring-ring
             "
           />
         </div>
@@ -174,7 +164,7 @@ const SignUp = (props) => {
           className="
             w-full py-4 text-lg rounded-xl
             bg-primary text-primary-foreground
-            hover:bg-primary/90 shadow-lg transform-gpu hover:scale-[1.02]
+            hover:bg-primary/90 shadow-lg transition-all hover:scale-[1.02]
             flex items-center justify-center gap-2
           "
         >

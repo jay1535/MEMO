@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { Button } from "@/components/ui/button";
 import { LogIn } from "lucide-react";
 
@@ -18,14 +17,17 @@ const Login = (props) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:5000/api/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: credentials.email,
-          password: credentials.password,
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: credentials.email,
+            password: credentials.password,
+          }),
+        }
+      );
 
       const json = await response.json();
 
@@ -58,19 +60,15 @@ const Login = (props) => {
       >
         {/* TITLE */}
         <div className="text-center mb-6">
-          <h2 className="text-3xl font-bold text-primary">
-            Welcome Back
-          </h2>
+          <h2 className="text-3xl font-bold text-primary">Welcome Back</h2>
           <p className="text-muted-foreground text-sm mt-1">
             Login to continue your journey.
           </p>
         </div>
 
-        {/* Email Input */}
+        {/* Email */}
         <div className="mb-4">
-          <label className="text-sm font-medium text-foreground">
-            Email
-          </label>
+          <label className="text-sm font-medium text-foreground">Email</label>
           <input
             type="email"
             name="email"
@@ -83,16 +81,13 @@ const Login = (props) => {
               bg-popover text-popover-foreground
               border border-border placeholder:opacity-60
               focus:outline-none focus:ring-2 focus:ring-ring
-              transition
             "
           />
         </div>
 
-        {/* Password Input */}
+        {/* Password */}
         <div className="mb-6">
-          <label className="text-sm font-medium text-foreground">
-            Password
-          </label>
+          <label className="text-sm font-medium text-foreground">Password</label>
           <input
             type="password"
             name="password"
@@ -105,7 +100,6 @@ const Login = (props) => {
               bg-popover text-popover-foreground
               border border-border placeholder:opacity-60
               focus:outline-none focus:ring-2 focus:ring-ring
-              transition
             "
           />
         </div>
@@ -114,11 +108,10 @@ const Login = (props) => {
         <Button
           type="submit"
           className="
-            w-full py-4 text-lg 
-            rounded-xl bg-primary text-primary-foreground 
+            w-full py-4 text-lg rounded-xl
+            bg-primary text-primary-foreground 
             hover:bg-primary/90 hover:scale-[1.02]
-            shadow-lg transform transition
-            flex items-center justify-center gap-2
+            shadow-lg transition-all flex items-center justify-center gap-2
           "
         >
           Login <LogIn className="w-4 h-4" />
