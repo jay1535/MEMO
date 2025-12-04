@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Button } from "@/components/ui/button";
+
 import {
   ArrowRight,
   FileText,
@@ -10,16 +10,8 @@ import {
   Search,
   Sparkles,
   Zap,
-  ShieldCheck,
+  ShieldCheck
 } from "lucide-react";
-
-// Safe redirect function
-const handleRedirect = () => {
-  const token =
-    typeof window !== "undefined" && localStorage.getItem("token");
-
-  window.location.href = token ? "/dashboard" : "/login";
-};
 
 export default function LandingPage() {
   return (
@@ -28,68 +20,67 @@ export default function LandingPage() {
       {/* HERO SECTION */}
       <section className="flex flex-col items-center text-center px-5 pt-32 pb-20">
         <h1 className="text-4xl md:text-6xl font-bold leading-tight max-w-4xl drop-shadow-[0_0_25px_rgba(140,0,255,0.35)]">
-          Organize Your Thoughts with{" "}
-          <span className="text-primary">SwiftNotes</span>
+
+          Bring Clarity to Your Ideas with{" "}
+
+          {/* 🌈 BEAUTIFUL GRADIENT TEXT EFFECT */}
+          <span
+            className="
+              bg-gradient-to-r 
+              from-purple-500 
+              via-fuchsia-500 
+              to-purple-600 
+              bg-clip-text 
+              text-transparent
+              drop-shadow-[0_0_10px_rgba(140,0,255,0.4)]
+            "
+          >
+            SwiftNotes
+          </span>
         </h1>
 
         <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl">
-          Capture, manage, and organize your ideas in a beautifully designed
-          purple-themed digital workspace.
+          A clean, modern workspace designed to help you capture thoughts,
+          stay organized, and think effortlessly.
         </p>
 
-        {/* CTA BUTTONS */}
-        <div className="flex gap-4 mt-8 flex-wrap justify-center">
+        {/* 🌟 NEW INTERACTIVE ELEMENT (No Buttons) */}
+        {/* 🔥 Animated Gradient Progress Bar */}
+<div className="mt-10 w-56 h-2 rounded-full bg-primary/20 overflow-hidden shadow-[0_0_20px_4px_rgba(140,0,255,0.4)]">
+  <div className="h-full w-full bg-gradient-to-r from-primary via-fuchsia-500 to-primary animate-progress" />
+</div>
 
-          {/* GET STARTED */}
-          <Button
-            onClick={handleRedirect}
-            className="
-              px-8 py-6 text-lg rounded-xl shadow-xl hover:scale-105 transition-all
-              bg-white text-black hover:bg-primary/80
-            "
-          >
-            Get Started <ArrowRight className="ml-2 w-5 h-5" />
-          </Button>
 
-          {/* VIEW NOTES */}
-          <Button
-            variant="outline"
-            onClick={handleRedirect}
-            className="
-              px-8 py-6 text-lg rounded-xl hover:scale-105 transition-all
-              border-primary text-primary hover:bg-primary hover:text-primary-foreground
-            "
-          >
-            View Notes
-          </Button>
-        </div>
+        <p className="mt-4 text-muted-foreground text-sm">
+          Log in or sign up to begin your note-taking journey.
+        </p>
       </section>
 
       {/* HOW IT WORKS */}
       <section className="px-6 py-16">
         <h2 className="text-3xl md:text-4xl font-bold text-center">
-          How <span className="text-primary">SwiftNotes</span> Works
+          How <span className="text-primary">SwiftNotes</span> Helps You Stay Organized
         </h2>
 
         <p className="text-center mt-3 text-muted-foreground max-w-2xl mx-auto">
-          A lightning-fast and intuitive way to store your ideas.
+          Designed for speed, simplicity, and a seamless writing experience.
         </p>
 
         <div className="grid md:grid-cols-3 gap-8 mt-14 max-w-6xl mx-auto">
           <HowCard
             icon={<Layers className="w-10 h-10 text-primary" />}
-            title="1. Create Notes"
-            desc="Add notes instantly with a clean and modern interface."
+            title="1. Create Instantly"
+            desc="Add notes with ease using a clean, distraction-free interface."
           />
           <HowCard
             icon={<Search className="w-10 h-10 text-primary" />}
-            title="2. Search Everything"
-            desc="Locate any note in seconds with smart search tools."
+            title="2. Find Anything"
+            desc="Search through your ideas quickly with smart filters and tools."
           />
           <HowCard
             icon={<PenLine className="w-10 h-10 text-primary" />}
-            title="3. Edit Anytime"
-            desc="Stay organized by updating your ideas whenever needed."
+            title="3. Edit Effortlessly"
+            desc="Refine, update, and enhance your notes whenever inspiration strikes."
           />
         </div>
       </section>
@@ -97,75 +88,50 @@ export default function LandingPage() {
       {/* FEATURES */}
       <section className="px-6 py-16 bg-card/30 backdrop-blur-sm">
         <h2 className="text-3xl md:text-4xl font-bold text-center">
-          Why Choose <span className="text-primary">SwiftNotes?</span>
+          Why People Love <span className="text-primary">SwiftNotes</span>
         </h2>
 
         <p className="text-center mt-3 text-muted-foreground max-w-2xl mx-auto">
-          A digital companion crafted for productivity and elegance.
+          Beautifully simple. Powerful when you need it.
         </p>
 
         <div className="grid md:grid-cols-3 gap-8 mt-14 max-w-6xl mx-auto">
           <FeatureCard 
             icon={<FileText className="w-10 h-10 text-primary" />} 
-            title="Beautiful UI" 
-            desc="Minimal, fast, and pleasing design language." 
+            title="Elegant Design" 
+            desc="A refined interface built to keep you focused on your ideas." 
           />
           <FeatureCard 
             icon={<Sparkles className="w-10 h-10 text-primary" />} 
             title="Smart Organization" 
-            desc="Keep your notes automatically arranged." 
+            desc="Your notes stay neatly arranged—no clutter, no chaos." 
           />
           <FeatureCard 
             icon={<Zap className="w-10 h-10 text-primary" />} 
-            title="Lightning Fast" 
-            desc="Blazing performance optimized for speed." 
+            title="Ultra Fast" 
+            desc="Optimized for speed, giving you a smooth writing experience." 
           />
           <FeatureCard 
             icon={<ShieldCheck className="w-10 h-10 text-primary" />} 
-            title="Secure" 
-            desc="Your notes remain private and protected." 
+            title="Privacy First" 
+            desc="Your notes stay secure, protected, and just for you." 
           />
           <FeatureCard 
             icon={<ArrowRight className="w-10 h-10 text-primary" />} 
-            title="Easy Navigation" 
-            desc="Move between notes with fluid navigation." 
+            title="Effortless Navigation" 
+            desc="Move across pages and sections with clean, fluid transitions." 
           />
           <FeatureCard 
             icon={<PenLine className="w-10 h-10 text-primary" />} 
-            title="Made for Students" 
-            desc="Perfect for exam notes, tasks, ideas, and reminders." 
+            title="Perfect for Students" 
+            desc="Ideal for organizing study material, ideas, tasks, and reminders." 
           />
-        </div>
-      </section>
-
-      {/* FINAL CTA */}
-      <section className="px-6 py-20 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold">
-          Start Managing Your Notes with{" "}
-          <span className="text-primary">SwiftNotes</span>
-        </h2>
-
-        <p className="text-muted-foreground mt-3 max-w-xl mx-auto">
-          The fastest and most elegant way to save your ideas.
-        </p>
-
-        <div className="flex justify-center">
-          <Button
-            onClick={handleRedirect}
-            className="
-              mt-7 px-10 py-6 rounded-xl text-lg shadow-xl hover:scale-110
-              bg-white text-black hover:bg-primary/80
-              flex items-center
-            "
-          >
-            Start Now <ArrowRight className="ml-2 w-5 h-5" />
-          </Button>
         </div>
       </section>
 
       {/* FOOTER */}
       <footer className="py-8 text-center border-t border-border text-sm text-muted-foreground">
-        © {new Date().getFullYear()} SwiftNotes — Built by Jayant
+        © {new Date().getFullYear()} SwiftNotes — Built with passion by Jayant
       </footer>
     </div>
   );
