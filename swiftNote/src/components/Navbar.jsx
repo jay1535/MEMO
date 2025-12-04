@@ -98,10 +98,10 @@ const Navbar = () => {
 
             <Button
               variant="outline"
-              onClick={() => window.open("https://instagram.com/jayant._.762", "_blank")}
+              onClick={() => window.open("https://linkedin.com/in/jayant-habbu/", "_blank")}
               className="rounded-xl border-[#b68aff] text-[#b68aff] hover:bg-[#b68aff] hover:text-black"
             >
-              <Instagram className="w-5 h-5" />
+              <Linkedin className="w-5 h-5" />
             </Button>
 
             {!loggedIn ? (
@@ -231,7 +231,7 @@ const Navbar = () => {
 
           <Button
             variant="outline"
-            onClick={() => window.open("https://linkedin.com/in/jayant", "_blank")}
+            onClick={() => window.open("https://linkedin.com/in/jayant-habbu/", "_blank")}
             className="rounded-xl border-[#b68aff] text-[#b68aff] hover:bg-[#b68aff] hover:text-black"
           >
             <Linkedin />
