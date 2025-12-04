@@ -13,9 +13,12 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
-// Redirect helper → Dashboard when logged in
-const redirect = () => {
-  return localStorage.getItem("token") ? "/dashboard" : "/login";
+// Safe redirect function
+const handleRedirect = () => {
+  const token =
+    typeof window !== "undefined" && localStorage.getItem("token");
+
+  window.location.href = token ? "/dashboard" : "/login";
 };
 
 export default function LandingPage() {
@@ -39,7 +42,7 @@ export default function LandingPage() {
 
           {/* GET STARTED */}
           <Button
-            onClick={() => (window.location.href = redirect())}
+            onClick={handleRedirect}
             className="
               px-8 py-6 text-lg rounded-xl shadow-xl hover:scale-105 transition-all
               bg-white text-black hover:bg-primary/80
@@ -48,10 +51,10 @@ export default function LandingPage() {
             Get Started <ArrowRight className="ml-2 w-5 h-5" />
           </Button>
 
-          {/* VIEW NOTES → also goes to dashboard */}
+          {/* VIEW NOTES */}
           <Button
             variant="outline"
-            onClick={() => (window.location.href = redirect())}
+            onClick={handleRedirect}
             className="
               px-8 py-6 text-lg rounded-xl hover:scale-105 transition-all
               border-primary text-primary hover:bg-primary hover:text-primary-foreground
@@ -102,12 +105,36 @@ export default function LandingPage() {
         </p>
 
         <div className="grid md:grid-cols-3 gap-8 mt-14 max-w-6xl mx-auto">
-          <FeatureCard icon={<FileText className="w-10 h-10 text-primary" />} title="Beautiful UI" desc="Minimal, fast, and pleasing design language." />
-          <FeatureCard icon={<Sparkles className="w-10 h-10 text-primary" />} title="Smart Organization" desc="Keep your notes automatically arranged." />
-          <FeatureCard icon={<Zap className="w-10 h-10 text-primary" />} title="Lightning Fast" desc="Blazing performance optimized for speed." />
-          <FeatureCard icon={<ShieldCheck className="w-10 h-10 text-primary" />} title="Secure" desc="Your notes remain private and protected." />
-          <FeatureCard icon={<ArrowRight className="w-10 h-10 text-primary" />} title="Easy Navigation" desc="Move between notes with fluid navigation." />
-          <FeatureCard icon={<PenLine className="w-10 h-10 text-primary" />} title="Made for Students" desc="Perfect for exam notes, tasks, ideas, and reminders." />
+          <FeatureCard 
+            icon={<FileText className="w-10 h-10 text-primary" />} 
+            title="Beautiful UI" 
+            desc="Minimal, fast, and pleasing design language." 
+          />
+          <FeatureCard 
+            icon={<Sparkles className="w-10 h-10 text-primary" />} 
+            title="Smart Organization" 
+            desc="Keep your notes automatically arranged." 
+          />
+          <FeatureCard 
+            icon={<Zap className="w-10 h-10 text-primary" />} 
+            title="Lightning Fast" 
+            desc="Blazing performance optimized for speed." 
+          />
+          <FeatureCard 
+            icon={<ShieldCheck className="w-10 h-10 text-primary" />} 
+            title="Secure" 
+            desc="Your notes remain private and protected." 
+          />
+          <FeatureCard 
+            icon={<ArrowRight className="w-10 h-10 text-primary" />} 
+            title="Easy Navigation" 
+            desc="Move between notes with fluid navigation." 
+          />
+          <FeatureCard 
+            icon={<PenLine className="w-10 h-10 text-primary" />} 
+            title="Made for Students" 
+            desc="Perfect for exam notes, tasks, ideas, and reminders." 
+          />
         </div>
       </section>
 
@@ -122,10 +149,9 @@ export default function LandingPage() {
           The fastest and most elegant way to save your ideas.
         </p>
 
-        {/* Centered Start Button */}
         <div className="flex justify-center">
           <Button
-            onClick={() => (window.location.href = redirect())}
+            onClick={handleRedirect}
             className="
               mt-7 px-10 py-6 rounded-xl text-lg shadow-xl hover:scale-110
               bg-white text-black hover:bg-primary/80
