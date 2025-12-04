@@ -1,11 +1,18 @@
 const mongoose = require('mongoose');
-const mongoURI = "mongodb://localhost:27017/notify"
+require("dotenv").config();
 
+const mongoURI = process.env.MONGO_URL;
 
-const connectToMongo = () =>{  
-    mongoose.connect(mongoURI)
-    console.log("Connected")
-}
+const connectToMongo = async () => {  
+    try {
+        await mongoose.connect(mongoURI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        console.log("✅ Connected to MongoDB Atlas");
+    } catch (err) {
+        console.error("❌ MongoDB Connection Error:", err);
+    }
+};
 
-
-module.exports = connectToMongo
+module.exports = connectToMongo;
