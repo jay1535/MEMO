@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Navbar from './components/Navbar';
+
 import Home from './components/Home'; 
 import About from './components/About';
 import NoteState from "./context/notes/NoteState";
@@ -9,6 +9,8 @@ import Notes from "./components/Notes";
 import Alert from "./components/Alert";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
+import DashBoard from "./components/DashBoard";
+import Navbar from "./components/Navbar";
 
 function App() {
 
@@ -26,17 +28,18 @@ function App() {
   return (
     <NoteState>
     <Router>
-      <Navbar />
+      <Navbar/>
       <Alert alert={alert}/>
-      <div className="container">
+      
       <Routes>
-        <Route path="/" element={<Home showAlert={showAlert} />} /> 
+        <Route path="/" element={<Home  />} />
+        <Route path="/dashboard" element={<DashBoard showAlert={showAlert} />} /> 
         <Route path="/about" element={<About />} />
         <Route path="/notes" element={<Notes showAlert={showAlert}/>} />
         <Route path="/login" element={<Login showAlert={showAlert} />} />
         <Route path="/signup" element={<SignUp  showAlert={showAlert}/>} />
       </Routes>
-      </div>
+      
     </Router>
     </NoteState>
   );

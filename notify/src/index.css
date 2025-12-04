@@ -1,239 +1,146 @@
-/* GLOBAL STYLES */
-body {
-    background: #f9f9f6; /* Light neutral background */
-    color: #2f3e46; /* Dark gray text */
-    font-size: 18px;
-    margin: 5px;
-    font-family: "Segoe UI", sans-serif;
+@import "tailwindcss";
+
+/* ---------------------------- */
+/* Tailwind Dark Mode Variant   */
+/* ---------------------------- */
+@custom-variant dark (&:is(.dark *));
+
+/* ---------------------------- */
+/* Theme Variables (Light Mode) */
+/* ---------------------------- */
+:root {
+  --radius: 0.625rem;
+
+  /* Base Colors */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+
+  /* Cards / Surfaces */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+
+  /* Main Colors */
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+
+  --destructive: oklch(0.577 0.245 27.325);
+
+  /* UI */
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+
+  /* Charts */
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+
+  /* Sidebar */
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+
+  /* Font */
+  font-family: 'Exo 2', sans-serif;
 }
 
-.container {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 20px;
-    border: 1px solid #dce0dd;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+/* ---------------------------- */
+/* Dark Mode Theme Variables    */
+/* ---------------------------- */
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+
+  --destructive: oklch(0.704 0.191 22.216);
+
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.439 0 0);
 }
 
-/* NAVBAR */
-.navbar {
-    font-size: 18px;
-    background: #e6f0ed; /* Light teal tint */
-    border-bottom: 4px solid #84a98c;
-    border-radius: 12px;
-    margin-top: 10px;
-    margin-bottom: 15px;
-    padding: 10px;
-    color: #2f3e46;
-    transition: border-bottom 0.3s ease;
+/* ---------------------------- */
+/* BASE RESET (Fixes your gaps) */
+/* ---------------------------- */
+@layer base {
+  html, body {
+    padding: 0;
+    margin: 0;       /* ❗ Removes extra margin between header & page */
+    @apply bg-background text-foreground;
+  }
 }
 
-.navbar:hover {
-    border-bottom: 4px solid #52796f;
+/* Remove border from everything (your old rule caused spacing bugs) */
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: var(--ring);
+  }
 }
 
-/* BUTTONS */
-.btn {
-    background-color: #84a98c;
-    color: #ffffff;
-    width: 120px;
-    height: 40px;
-    border: none;
-    border-radius: 8px;
-    font-weight: bold;
-    transition: all 0.3s ease-in-out;
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.btn:hover {
-    background: #52796f;
-    box-shadow: 0 0 10px rgba(82, 121, 111, 0.3);
+.animate-slideDown {
+  animation: slideDown 0.3s ease-out;
 }
 
-/* CARD TITLES */
-.card-title {
-    font-size: 22px;
-    color: #52796f;
-    font-weight: bold;
-}
-
-.card-text {
-    color: #354f52;
-    font-size: 16px;
-}
-
-.card {
-    border-radius: 16px;
-    background: #ffffff;
-    border: 1px solid #dce0dd;
-    transition: all 0.3s ease-in-out;
-}
-
-.card:hover {
-    background: #f2f7f5;
-    transform: translateY(-5px);
-}
-
-/* ICONS */
-i {
-    font-size: 20px;
-    padding: 0 15px;
-    cursor: pointer;
-    color: #84a98c;
-}
-
-/* NOTES INPUT BOX */
-.box {
-    width: 500px;
-    background: #ffffff;
-    border: 1px solid #dce0dd;
-    border-radius: 12px;
-    padding: 15px;
-    color: #2f3e46;
-}
-
-/* SIGNUP & LOGIN BACKGROUND */
-.signup-container,
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: #f9f9f6;
-    padding: 20px;
-}
-
-/* SIGNUP & LOGIN CARDS */
-.signup-card,
-.login-card {
-    background: #ffffff;
-    border: 1px solid #dce0dd;
-    border-radius: 12px;
-    padding: 30px;
-    width: 400px;
-    color: #2f3e46;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    animation: fadeIn 0.8s ease-in-out;
-}
-
-/* TITLES */
-.signup-title,
-.login-title {
-    text-align: center;
-    margin-bottom: 20px;
-    font-weight: bold;
-    color: #52796f;
-}
-
-/* LABELS */
-.form-label {
-    color: #52796f;
-    font-weight: bold;
-}
-
-/* INPUT FIELDS */
-.custom-input {
-    background: #f2f7f5;
-    border: 1px solid #dce0dd;
-    color: #2f3e46;
-    border-radius: 8px;
-    padding: 10px 15px;
-    outline: none;
-    transition: all 0.3s ease-in-out;
-}
-
-.custom-input::placeholder {
-    color: rgba(47, 62, 70, 0.5);
-}
-
-.custom-input:focus {
-    background: #ffffff;
-    border-color: #84a98c;
-    box-shadow: 0 0 6px rgba(132, 169, 140, 0.3);
-}
-
-/* SUBMIT BUTTONS */
-.signup-btn,
-.login-btn {
-    background: #84a98c;
-    border: none;
-    color: #ffffff;
-    width: 100%;
-    padding: 10px;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 8px;
-    transition: all 0.3s ease-in-out;
-}
-
-.signup-btn:hover,
-.login-btn:hover {
-    background: #52796f;
-    box-shadow: 0 0 12px rgba(82, 121, 111, 0.3);
-}
-
-/* ANIMATION */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-.about-container {
-  min-height: 100vh;
-  background-color: #0f0f0f;
-  color: white;
-  padding: 3rem 1rem;
-}
-
-.about-header {
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto 3rem;
-}
-
-.about-header h1 {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #ffd700; /* yellow */
-}
-
-.about-header p {
-  font-size: 1.1rem;
-  color: #ccc;
-}
-
-.about-steps {
-  display: grid;
-  gap: 1.5rem;
-  max-width: 1100px;
-  margin: 0 auto;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-}
-
-.about-card {
-  background-color: #1a1a1a;
-  border: 1px solid #333;
-  padding: 1.5rem;
-  border-radius: 12px;
-  text-align: center;
-  transition: 0.3s;
-}
-
-.about-card:hover {
-  border-color: #ffd700;
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-}
-
-.about-icon {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.about-card h2 {
-  font-size: 1.2rem;
-  color: #ffd700;
-  margin-bottom: 0.5rem;
-}
-
-.about-card p {
-  font-size: 0.95rem;
-  color: #bbb;
-}

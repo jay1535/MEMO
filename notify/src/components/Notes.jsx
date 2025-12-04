@@ -1,12 +1,37 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { useNavigate } from 'react-router-dom'; // Updated from useHistory
+"use client";
+
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import noteContext from "../context/notes/NoteContext";
 import Noteitem from "./Noteitem";
 
-const Notes = (props) => {
-  const context = useContext(noteContext);
-  const { notes, getNotes, editNote } = context;
-  let navigate = useNavigate();
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardTitle,
+} from "@/components/ui/card";
+
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+
+const Notes = ({ showAlert }) => {
+  const { notes, getNotes, editNote } = useContext(noteContext);
+  const navigate = useNavigate();
+
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -16,8 +41,6 @@ const Notes = (props) => {
     }
   }, [getNotes, navigate]);
 
-  const ref = useRef(null);
-  const refClose = useRef(null);
   const [note, setNote] = useState({
     id: "",
     etitle: "",
@@ -26,72 +49,143 @@ const Notes = (props) => {
   });
 
   const updateNote = (currentnote) => {
-    ref.current.click();
     setNote({
       id: currentnote._id,
       etitle: currentnote.title,
       edescription: currentnote.description,
       etag: currentnote.tag || "default",
     });
+    setOpen(true);
   };
 
   const handleClick = () => {
-    if (!note.etitle || !note.edescription) return;
     editNote(note.id, note.etitle, note.edescription, note.etag);
-    refClose.current.click();
-    props.showAlert("Notes updated successfully 🎉", "success");
+    setOpen(false);
+    showAlert("Note updated successfully 🎉", "success");
   };
 
   const onChange = (e) => {
-    setNote({ ...note, [e.target.name]: e.target.value });
+    setNote({
+      ...note,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
-    <div>
-      <div className="row p-3 my-3">
-        <h4>Your notes📖..</h4>
-        {notes.map((note) => (
-          <Noteitem key={note._id} updateNote={updateNote} showAlert={props.showAlert} note={note} />
-        ))}
-      </div>
+    <div className="min-h-screen w-full flex justify-center items-start px-6 py-10">
 
-      {/* Update Notes Modal */}
-      <button ref={ref} type="button" className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Edit Notes
-      </button>
+      {/* Outer Notes Card */}
+      <Card
+        className="
+          w-full max-w-[1400px] 
+          bg-card/80 border border-border 
+          backdrop-blur-xl rounded-2xl 
+          shadow-[0_0_25px_rgba(140,0,255,0.15)]
+        "
+      >
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold text-primary drop-shadow-[0_0_12px_rgba(140,0,255,0.4)]">
+            Your Notes 📖
+          </CardTitle>
+        </CardHeader>
 
-      <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h1 className="modal-title fs-8 text-primary" id="exampleModalLabel">Edit Your Notes</h1>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+        {/* Notes Grid */}
+        <CardContent className="h-[65vh] overflow-y-auto pr-3 custom-scroll">
 
-            <div className="modal-body">
-              <div className="mb-3">
-                <label htmlFor="etitle" className="form-label">Edit Title</label>
-                <input type="text" className="form-control" name="etitle" value={note.etitle} onChange={onChange} />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="edescription" className="form-label">Edit Description</label>
-                <input type="text" className="form-control" name="edescription" value={note.edescription} onChange={onChange} />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="etag" className="form-label">Edit Tag</label>
-                <input type="text" className="form-control" name="etag" value={note.etag} onChange={onChange} />
-              </div>
-            </div>
-
-            <div className="modal-footer">
-              <button ref={refClose} type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary" onClick={handleClick} disabled={!note.etitle || !note.edescription}>
-                Update
-              </button>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {notes.length === 0 ? (
+              <p className="text-muted-foreground">
+                You haven’t created any notes yet.
+              </p>
+            ) : (
+              notes.map((n) => (
+                <Noteitem
+                  key={n._id}
+                  updateNote={updateNote}
+                  showAlert={showAlert}
+                  note={n}
+                />
+              ))
+            )}
           </div>
-        </div>
-      </div>
+
+        </CardContent>
+      </Card>
+
+      {/* EDIT DIALOG */}
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent
+          className="
+            bg-card border border-border text-card-foreground
+            backdrop-blur-xl rounded-2xl shadow-xl
+          "
+        >
+          <DialogHeader>
+            <DialogTitle className="text-primary">
+              Edit Your Note
+            </DialogTitle>
+          </DialogHeader>
+
+          <div className="grid gap-4 py-4">
+
+            {/* Title */}
+            <div>
+              <Label className="text-sm text-foreground">Title</Label>
+              <Input
+                type="text"
+                name="etitle"
+                value={note.etitle}
+                onChange={onChange}
+                className="bg-popover text-popover-foreground"
+              />
+            </div>
+
+            {/* Description */}
+            <div>
+              <Label className="text-sm text-foreground">Description</Label>
+              <Input
+                type="text"
+                name="edescription"
+                value={note.edescription}
+                onChange={onChange}
+                className="bg-popover text-popover-foreground"
+              />
+            </div>
+
+            {/* Tag */}
+            <div>
+              <Label className="text-sm text-foreground">Tag</Label>
+              <Input
+                type="text"
+                name="etag"
+                value={note.etag}
+                onChange={onChange}
+                className="bg-popover text-popover-foreground"
+              />
+            </div>
+
+          </div>
+
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setOpen(false)}
+              className="border-primary text-primary hover:bg-primary/20"
+            >
+              Close
+            </Button>
+
+            <Button
+              onClick={handleClick}
+              disabled={!note.etitle || !note.edescription}
+              className="bg-primary text-primary-foreground hover:bg-primary/80"
+            >
+              Update
+            </Button>
+          </DialogFooter>
+
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

@@ -3,70 +3,80 @@ import React from "react";
 const About = () => {
   const features = [
     {
-      title: "Add",
-      desc: "Quickly create notes with a minimal, intuitive form.",
+      title: "Add Notes",
+      desc: "Create new notes quickly using a clean, focused input form.",
       icon: "📝",
     },
     {
-      title: "Read",
-      desc: "Access your notes instantly with a clean, distraction-free layout.",
+      title: "Read Notes",
+      desc: "View your ideas in a neatly organized and distraction-free layout.",
       icon: "📖",
     },
     {
-      title: "Update",
-      desc: "Edit notes seamlessly to keep them relevant and updated.",
+      title: "Update Notes",
+      desc: "Edit any note effortlessly whenever you want to refine your ideas.",
       icon: "✏️",
     },
     {
-      title: "Delete",
-      desc: "Easily remove notes you no longer need with a single click.",
+      title: "Delete Notes",
+      desc: "Remove outdated or unnecessary notes in a single click.",
       icon: "🗑",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 p-6 flex flex-col items-center">
-      {/* Title */}
-      <h1 className="text-4xl md:text-5xl font-extrabold text-yellow-400 mb-4 text-center drop-shadow-lg">
-        🗒 Manage Your Notes Like a Pro
+    <div className="min-h-screen w-full bg-background text-foreground px-6 py-12 flex flex-col items-center">
+
+      {/* 🎨 60% — Title Section */}
+      <h1 className="text-4xl md:text-5xl font-extrabold mb-3 text-center text-primary drop-shadow-[0_4px_20px_rgba(140,0,255,0.25)]">
+        Manage Your Notes<br />With Style & Ease
       </h1>
 
-      <p className="text-center max-w-2xl text-lg mb-8 text-gray-300">
-        Your thoughts deserve the best organization. Capture, edit, and manage
-        your ideas effortlessly in a sleek, distraction-free workspace.
+      <p className="max-w-2xl text-center text-muted-foreground text-lg mb-10 leading-relaxed">
+        A beautifully crafted workspace built to help you capture, manage, and refine your ideas — all in one elegant purple-themed interface.
       </p>
 
-      {/* Card Grid */}
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl w-full">
+      {/* 🎨 30% — Feature Cards */}
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl w-full">
         {features.map((feature, idx) => (
           <div
             key={idx}
-            className="bg-gray-900 border border-gray-800 rounded-xl shadow-lg hover:shadow-yellow-400/20 transition-all duration-300 p-6 flex flex-col items-center text-center hover:-translate-y-2"
+            className="
+              bg-card border border-border backdrop-blur-xl rounded-2xl 
+              p-6 flex flex-col items-center text-center shadow-lg
+              hover:shadow-primary/30 hover:-translate-y-2 transition-all duration-300
+            "
           >
-            <div className="text-5xl mb-3">{feature.icon}</div>
-            <h2 className="text-xl font-semibold text-yellow-400">
-              {feature.title}
-            </h2>
-            <p className="mt-2 text-sm text-gray-400">{feature.desc}</p>
+            <div className="text-5xl mb-4">{feature.icon}</div>
+            <h2 className="text-xl font-semibold text-primary mb-1">{feature.title}</h2>
+            <p className="text-muted-foreground text-sm">{feature.desc}</p>
           </div>
         ))}
       </div>
 
-      {/* How to Use */}
-      <div className="mt-12 max-w-3xl w-full bg-gray-900 border border-gray-800 rounded-xl p-8 shadow-lg">
-        <h2 className="text-2xl font-bold text-yellow-400 text-center mb-4">
+      {/* 🎨 10% — Highlighted How-To Section */}
+      <div className="
+        mt-16 max-w-3xl w-full bg-card border border-border 
+        rounded-2xl p-8 shadow-xl backdrop-blur-xl 
+        hover:shadow-primary/20 transition-all duration-300
+      ">
+        <h2 className="text-2xl font-bold text-center text-primary mb-4">
           📌 How to Use
         </h2>
-        <ul className="list-disc list-inside text-gray-300 space-y-2 text-sm sm:text-base">
+
+        <ul className="list-disc list-inside text-muted-foreground space-y-2 text-base leading-relaxed">
           <li>
-            Click <span className="font-semibold text-yellow-400">"Add Note"</span> to create a new note.
+            Click <span className="font-semibold text-primary">"Add Note"</span> to create a new entry.
           </li>
-          <li>Type your content and save it instantly.</li>
-          <li>Click any note to view or edit it.</li>
-          <li>Use the delete option to remove unnecessary notes.</li>
-          <li>Enjoy a clean and organized digital workspace.</li>
+          <li>Type your content using the clean and minimalist editor.</li>
+          <li>Click any note card to edit or update its content.</li>
+          <li>Use the delete option to remove notes instantly.</li>
+          <li>Keep your ideas organized inside a beautiful purple UI.</li>
         </ul>
       </div>
+
+     
+
     </div>
   );
 };

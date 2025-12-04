@@ -1,29 +1,54 @@
+"use client";
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+
+/**
+ * SignUp.jsx
+ * Purple 60-30-10 themed signup form (dark mode).
+ * Keeps existing API logic; only UI/theme updated.
+ */
 
 const SignUp = (props) => {
-  const [credentials, setCredentials] = useState({ name: "", email: "", password: "", cpassword: "" });
-  let navigate = useNavigate();
+  const [credentials, setCredentials] = useState({
+    name: "",
+    email: "",
+    password: "",
+    cpassword: "",
+  });
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { name, email, password } = credentials;
 
-    const response = await fetch(`http://localhost:5000/api/auth/createuser`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
-    });
+    const { name, email, password, cpassword } = credentials;
 
-    const json = await response.json();
-    console.log(json);
+    if (password !== cpassword) {
+      props.showAlert("⚠️ Passwords do not match!", "danger");
+      return;
+    }
 
-    if (json.success) {
-      localStorage.setItem("token", json.authToken);
-      navigate("/");
-      props.showAlert("Account created Successfully🎉", "success");
-    } else {
-      props.showAlert("⚠️Invalid email or password. Please try again.", "danger");
+    try {
+      const response = await fetch(`http://localhost:5000/api/auth/createuser`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const json = await response.json();
+
+      if (json.success) {
+        localStorage.setItem("token", json.authToken);
+        props.showAlert("Account created Successfully! 🎉", "success");
+        navigate("/");
+      } else {
+        props.showAlert("⚠️ Invalid details. Please try again.", "danger");
+      }
+    } catch (error) {
+      props.showAlert("⚠️ Something went wrong!", "danger");
     }
   };
 
@@ -32,31 +57,140 @@ const SignUp = (props) => {
   };
 
   return (
-    <div className="signup-container">
-      <form className="signup-card" onSubmit={handleSubmit}>
-        <h2 className="signup-title">Create Account</h2>
-
-        <div className="mb-3">
-          <label htmlFor="name" className="form-label">Username</label>
-          <input type="text" className="form-control custom-input" id="name" required name="name" onChange={onChange} />
+    <div className="min-h-screen flex items-center justify-center bg-background px-4 py-12">
+      <form
+        onSubmit={handleSubmit}
+        className="
+          w-full max-w-md
+          bg-card/70 backdrop-blur-xl border border-border
+          p-8 rounded-2xl shadow-xl
+        "
+      >
+        {/* Header */}
+        <div className="mb-6 text-center">
+          <h2 className="text-3xl font-bold text-primary mb-1">
+            Create your account
+          </h2>
+          <p className="text-muted-foreground text-sm">
+            Join SwiftNotes — save ideas, stay organized.
+          </p>
         </div>
 
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">Email</label>
-          <input type="email" className="form-control custom-input" id="email" name="email" required onChange={onChange} />
+        {/* Name */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-foreground mb-2">
+            Username
+          </label>
+          <input
+            type="text"
+            name="name"
+            required
+            value={credentials.name}
+            onChange={onChange}
+            placeholder="Enter your username"
+            className="
+              w-full px-4 py-3 rounded-xl
+              bg-popover text-popover-foreground
+              border border-border
+              placeholder:opacity-60
+              focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary
+              transition
+            "
+          />
         </div>
 
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">Password</label>
-          <input type="password" className="form-control custom-input" name="password" required onChange={onChange} id="password" />
+        {/* Email */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-foreground mb-2">
+            Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            required
+            value={credentials.email}
+            onChange={onChange}
+            placeholder="Enter your email"
+            className="
+              w-full px-4 py-3 rounded-xl
+              bg-popover text-popover-foreground
+              border border-border
+              placeholder:opacity-60
+              focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary
+              transition
+            "
+          />
         </div>
 
-        <div className="mb-3">
-          <label htmlFor="cpassword" className="form-label">Confirm Password</label>
-          <input type="password" className="form-control custom-input" name="cpassword" required onChange={onChange} id="cpassword" />
+        {/* Password */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-foreground mb-2">
+            Password
+          </label>
+          <input
+            type="password"
+            name="password"
+            required
+            value={credentials.password}
+            onChange={onChange}
+            placeholder="Enter password"
+            className="
+              w-full px-4 py-3 rounded-xl
+              bg-popover text-popover-foreground
+              border border-border
+              placeholder:opacity-60
+              focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary
+              transition
+            "
+          />
         </div>
 
-        <button type="submit" className="btn signup-btn">Sign Up</button>
+        {/* Confirm Password */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-foreground mb-2">
+            Confirm Password
+          </label>
+          <input
+            type="password"
+            name="cpassword"
+            required
+            value={credentials.cpassword}
+            onChange={onChange}
+            placeholder="Confirm password"
+            className="
+              w-full px-4 py-3 rounded-xl
+              bg-popover text-popover-foreground
+              border border-border
+              placeholder:opacity-60
+              focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary
+              transition
+            "
+          />
+        </div>
+
+        {/* Submit */}
+        <Button
+          type="submit"
+          className="
+            w-full py-4 text-lg rounded-xl
+            bg-primary text-primary-foreground
+            hover:bg-primary/90 shadow-lg transform-gpu hover:scale-[1.02]
+            flex items-center justify-center gap-2
+          "
+        >
+          Sign Up <ArrowRight className="w-4 h-4" />
+        </Button>
+
+        {/* Login link */}
+        <p className="text-center text-muted-foreground mt-5 text-sm">
+          Already have an account?{" "}
+          <span
+            onClick={() => navigate("/login")}
+            className="text-primary cursor-pointer underline-offset-2 hover:underline"
+          >
+            Login
+          </span>
+        </p>
       </form>
     </div>
   );

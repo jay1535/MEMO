@@ -1,20 +1,42 @@
-import React from 'react'
+"use client";
 
-function Alert(props) {
-    const capitalize = (word)=>{
-      if(word==='danger'|| word==="success"){
-        word="🧑‍💻"
-      }
-        const lower = word.toLowerCase();
-        return lower.charAt(0).toUpperCase() + lower.slice(1);
-    }
-    return (
-        <div className='alert' style={{height: '50px'}}>
-        {props.alert && <div className={`alert alert-${props.alert.type} alert-dismissible fade show`} role="alert">
-           <strong>{capitalize(props.alert.type)}</strong>: {props.alert.msg} 
-        </div>}
-        </div>
-    )
+import React from "react";
+
+export default function Alert({ alert }) {
+  if (!alert) return null;
+
+  const typeStyles = {
+    success: "bg-green-600/20 text-green-400 border-green-600/30",
+    danger: "bg-red-600/20 text-red-400 border-red-600/30",
+    warning: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
+    info: "bg-blue-600/20 text-blue-400 border-blue-600/30",
+  };
+
+  const prefixEmoji = {
+    success: "✅",
+    danger: "⚠️",
+    warning: "🔔",
+    info: "ℹ️",
+  };
+
+  return (
+    <div className="w-full flex justify-center mt-4 px-4">
+      <div
+        className={`
+          w-full md:w-[600px]
+          px-5 py-3 rounded-xl border 
+          backdrop-blur-xl shadow-md
+          transition-all duration-300 animate-slideDown
+        
+          ${typeStyles[alert.type] || typeStyles.info}
+        `}
+      >
+        <strong className="mr-2">
+          {prefixEmoji[alert.type] || "🔔"}
+        </strong>
+
+        {alert.msg}
+      </div>
+    </div>
+  );
 }
-
-export default Alert
