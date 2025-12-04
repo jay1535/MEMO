@@ -42,7 +42,7 @@ export default function LandingPage() {
             onClick={() => (window.location.href = redirect())}
             className="
               px-8 py-6 text-lg rounded-xl shadow-xl hover:scale-105 transition-all
-              bg-primary text-primary-foreground hover:bg-primary/80
+              bg-white text-black hover:bg-primary/80
             "
           >
             Get Started <ArrowRight className="ml-2 w-5 h-5" />
@@ -128,7 +128,7 @@ export default function LandingPage() {
             onClick={() => (window.location.href = redirect())}
             className="
               mt-7 px-10 py-6 rounded-xl text-lg shadow-xl hover:scale-110
-              bg-primary text-primary-foreground hover:bg-primary/80
+              bg-white text-black hover:bg-primary/80
               flex items-center
             "
           >

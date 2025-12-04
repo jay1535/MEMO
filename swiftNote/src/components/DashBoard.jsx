@@ -26,10 +26,7 @@ function DashBoard({ showAlert }) {
       {/* Add Note Section */}
       <AddNote showAlert={showAlert} />
 
-      {/* Footer Message */}
-      <p className="text-muted-foreground text-xs mt-10 opacity-70">
-        Powered by Memo — Your personal notes companion ✨
-      </p>
+     
     </div>
   );
 }
