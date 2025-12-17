@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useContext } from "react";
-import TaskContext from "../context/tasks/taskContext";
+
 
 import { Pencil, Trash2, Clock, Bell } from "lucide-react";
 import {
@@ -11,6 +11,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import TaskContext from "../context/tasks/taskContext";
 
 const TaskItem = ({ task, updateTask, showAlert }) => {
   const { removeTask } = useContext(TaskContext);
