@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import TaskContext from "./taskContext";
 
 const TaskState = ({ children }) => {
-  const host = process.env.VITE_BACKEND_URL;
+  const host = import.meta.env.VITE_BACKEND_URL;
   const [tasks, setTasks] = useState([]);
 
   // Get all tasks
