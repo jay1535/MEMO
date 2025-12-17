@@ -11,7 +11,7 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import TaskContext from "../context/tasks/taskContext";
+import TaskContext from "../context/tasks/TaskContext";
 
 const TaskItem = ({ task, updateTask, showAlert }) => {
   const { removeTask } = useContext(TaskContext);

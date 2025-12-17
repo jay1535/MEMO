@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ListTodo, PlusCircle } from "lucide-react";
-import TaskContext from "../context/tasks/taskContext";
+import TaskContext from "../context/tasks/TaskContext";
 
 
 const AddTask = ({ showAlert }) => {

@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from './components/Home'; 
 import About from './components/About';
 import NoteState from "./context/notes/NoteState";
+
 import Notes from "./components/Notes";
 import Alert from "./components/Alert";
 import SignUp from "./components/SignUp";
@@ -16,7 +17,9 @@ import NotFound from "./components/NotFound";
 import Tasks from "./components/Tasks";
 
 import TaskDashboard from "./components/TaskDashBoard";
-import TaskState from "./context/tasks/taskState";
+import TaskState from "./context/tasks/TaskState";
+
+
 
 
 
@@ -38,6 +41,7 @@ function App() {
   return (
     <NoteState>
       <TaskState>
+      
     <Router>
       <Navbar/>
       <Alert alert={alert}/>
