@@ -10,7 +10,10 @@ import {
   Search,
   Sparkles,
   Zap,
-  ShieldCheck
+  ShieldCheck,
+  CheckSquare,
+  ListChecks,
+  CalendarCheck,
 } from "lucide-react";
 
 export default function LandingPage() {
@@ -18,12 +21,10 @@ export default function LandingPage() {
     <div className="min-h-screen w-full bg-background text-foreground">
 
       {/* HERO SECTION */}
-      <section className="flex flex-col  items-center text-center px-5 pt-32 pb-20">
+      <section className="flex h-screen flex-col items-center text-center px-5 pt-32 pb-20">
         <h1 className="text-4xl md:text-6xl font-bold leading-tight max-w-4xl drop-shadow-[0_0_25px_rgba(140,0,255,0.35)]">
 
-          Bring Clarity to Your Ideas with{" "}
-
-          {/* 🌈 BEAUTIFUL GRADIENT TEXT EFFECT */}
+          Organize Everything in One Space with{" "}
           <span
             className="
               bg-linear-to-r 
@@ -40,17 +41,16 @@ export default function LandingPage() {
         </h1>
 
         <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl">
-          A clean, modern workspace designed to help you capture thoughts,
-          stay organized, and think effortlessly.
+          Your notes, to-dos, ideas, and tasks — all in one beautifully simple app.
         </p>
 
-        {/* Animated Gradient Progress Bar */}
+        {/* Animated Progress Line */}
         <div className="mt-10 w-56 h-2 rounded-full bg-primary/20 overflow-hidden shadow-[0_0_20px_4px_rgba(140,0,255,0.4)]">
           <div className="h-full w-full bg-linear-to-r from-primary via-fuchsia-500 to-primary animate-progress" />
         </div>
 
         <p className="mt-4 text-muted-foreground text-sm">
-          Log in or sign up to begin your note-taking journey.
+          Log in to start managing notes and tasks effortlessly.
         </p>
       </section>
 
@@ -71,28 +71,28 @@ export default function LandingPage() {
           >
             SwiftNotes
           </span>{" "}
-          Helps You Stay Organized
+          Makes Life Easier
         </h2>
 
         <p className="text-center mt-3 text-muted-foreground max-w-2xl mx-auto">
-          Designed for speed, simplicity, and a seamless writing experience.
+          A perfect blend of notes + to-do lists for maximum productivity.
         </p>
 
         <div className="grid md:grid-cols-3 gap-8 mt-14 max-w-6xl mx-auto">
           <HowCard
             icon={<Layers className="w-10 h-10 text-primary" />}
-            title="1. Create Instantly"
-            desc="Add notes with ease using a clean, distraction-free interface."
+            title="1. Capture Notes Instantly"
+            desc="Write anything—ideas, study notes, tasks, reminders—without distractions."
           />
           <HowCard
-            icon={<Search className="w-10 h-10 text-primary" />}
-            title="2. Find Anything"
-            desc="Search through your ideas quickly with smart filters and tools."
+            icon={<CheckSquare className="w-10 h-10 text-primary" />}
+            title="2. Manage Your Tasks"
+            desc="Create, complete, and track to-dos with a clean and intuitive interface."
           />
           <HowCard
-            icon={<PenLine className="w-10 h-10 text-primary" />}
-            title="3. Edit Effortlessly"
-            desc="Refine, update, and enhance your notes whenever inspiration strikes."
+            icon={<CalendarCheck className="w-10 h-10 text-primary" />}
+            title="3. Stay Organized"
+            desc="Group notes & tasks together so everything stays structured."
           />
         </div>
       </section>
@@ -117,61 +117,129 @@ export default function LandingPage() {
         </h2>
 
         <p className="text-center mt-3 text-muted-foreground max-w-2xl mx-auto">
-          Beautifully simple. Powerful when you need it.
+          Simple enough to use daily. Powerful enough to stay forever.
         </p>
 
         <div className="grid md:grid-cols-3 gap-8 mt-14 max-w-6xl mx-auto">
+
           <FeatureCard 
             icon={<FileText className="w-10 h-10 text-primary" />} 
-            title="Elegant Design" 
-            desc="A refined interface built to keep you focused on your ideas." 
+            title="Beautiful Note-Taking" 
+            desc="Fast, minimal, and fluid note-writing experience." 
+          />
+          <FeatureCard 
+            icon={<ListChecks className="w-10 h-10 text-primary" />} 
+            title="Smart To-Do System" 
+            desc="Track tasks, mark progress, and achieve more." 
+          />
+          <FeatureCard 
+            icon={<Search className="w-10 h-10 text-primary" />} 
+            title="Unified Search" 
+            desc="Instantly find notes or tasks in one place." 
           />
           <FeatureCard 
             icon={<Sparkles className="w-10 h-10 text-primary" />} 
-            title="Smart Organization" 
-            desc="Your notes stay neatly arranged—no clutter, no chaos." 
+            title="Organized Collections" 
+            desc="Group notes and to-dos into categories or subjects." 
           />
           <FeatureCard 
             icon={<Zap className="w-10 h-10 text-primary" />} 
-            title="Ultra Fast" 
-            desc="Optimized for speed, giving you a smooth writing experience." 
+            title="Lightning Fast" 
+            desc="Built for speed—smooth transitions and instant responses." 
           />
           <FeatureCard 
             icon={<ShieldCheck className="w-10 h-10 text-primary" />} 
-            title="Privacy First" 
-            desc="Your notes stay secure, protected, and just for you." 
-          />
-          <FeatureCard 
-            icon={<ArrowRight className="w-10 h-10 text-primary" />} 
-            title="Effortless Navigation" 
-            desc="Move across pages and sections with clean, fluid transitions." 
-          />
-          <FeatureCard 
-            icon={<PenLine className="w-10 h-10 text-primary" />} 
-            title="Perfect for Students" 
-            desc="Ideal for organizing study material, ideas, tasks, and reminders." 
+            title="Your Data Stays Private" 
+            desc="Secure and encrypted, always safe." 
           />
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="py-8 text-center border-t border-border text-sm text-muted-foreground">
-        © {new Date().getFullYear()}{" "}
-        <span
-          className="
-            bg-linear-to-r 
-            from-purple-500 
-            via-fuchsia-500 
-            to-purple-600 
-            bg-clip-text 
-            text-transparent
-            drop-shadow-[0_0_10px_rgba(140,0,255,0.4)]
-          "
+     <footer className="w-full border-t border-border bg-[#0b0712] mt-20">
+  <div className="max-w-7xl mx-auto px-6 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+
+    {/* BRAND SECTION */}
+    <div>
+      <h2 className="text-3xl font-extrabold bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600 bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(140,0,255,0.4)]">
+        SwiftNotes
+      </h2>
+      <p className="text-muted-foreground mt-4 leading-relaxed text-sm">
+        A fast, modern, and beautifully designed workspace to manage your 
+        notes and tasks — streamlined for simplicity, power, and productivity.
+      </p>
+    </div>
+
+    {/* PRODUCT */}
+    <div>
+      <h3 className="text-lg font-semibold text-primary mb-4">Product</h3>
+      <ul className="space-y-2 text-muted-foreground">
+        <li className="hover:text-primary cursor-pointer">Add Notes</li>
+        <li className="hover:text-primary cursor-pointer">View Notes</li>
+        <li className="hover:text-primary cursor-pointer">Add Tasks</li>
+        <li className="hover:text-primary cursor-pointer">Task Reminders</li>
+        <li className="hover:text-primary cursor-pointer">Update / Delete</li>
+      </ul>
+    </div>
+
+    {/* RESOURCES */}
+    <div>
+      <h3 className="text-lg font-semibold text-primary mb-4">Resources</h3>
+      <ul className="space-y-2 text-muted-foreground">
+        <li className="hover:text-primary cursor-pointer">About SwiftNotes</li>
+        <li className="hover:text-primary cursor-pointer">Documentation</li>
+        <li className="hover:text-primary cursor-pointer">Privacy Policy</li>
+        <li className="hover:text-primary cursor-pointer">Terms & Conditions</li>
+      </ul>
+    </div>
+
+    {/* CONTACT */}
+    <div>
+      <h3 className="text-lg font-semibold text-primary mb-4">Contact</h3>
+      <ul className="space-y-3 text-muted-foreground">
+        <li>Email: <span className="hover:text-primary cursor-pointer">habbujayant@gmail.com</span></li>
+        <li>Location: Bengaluru, India</li>
+      </ul>
+
+      {/* SOCIALS */}
+      <div className="flex gap-4 mt-5">
+        <a
+          href="https://github.com/jay1535"
+          target="_blank"
+          className="text-muted-foreground hover:text-primary transition"
         >
-          SwiftNotes
-        </span>{" "}
-        — Built with passion by Jayant
-      </footer>
+          <i className="fab fa-github text-xl"></i>
+        </a>
+        
+        <a
+          href="https://linkedin.com/in/jayant-habbu/"
+          target="_blank"
+          className="text-muted-foreground hover:text-primary transition"
+        >
+          <i className="fab fa-linkedin text-xl"></i>
+        </a>
+
+        <a
+          href="https://www.instagram.com/jayant._.762/"
+          target="_blank"
+          className="text-muted-foreground hover:text-primary transition"
+        >
+          <i className="fab fa-instagram text-xl"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  {/* BOTTOM COPYRIGHT BAR */}
+  <div className="py-6 border-t border-border text-center text-sm text-muted-foreground">
+    © {new Date().getFullYear()}{" "}
+    <span className="bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600 bg-clip-text text-transparent drop-shadow-[0_0_10px_rgba(140,0,255,0.4)]">
+      SwiftNotes
+    </span>{" "}
+    — Built with passion by <span className="text-primary">Jayant</span>
+  </div>
+</footer>
+
 
     </div>
   );
@@ -194,7 +262,7 @@ function FeatureCard({ icon, title, desc }) {
   );
 }
 
-/* How It Works Card */
+/* How Card */
 function HowCard({ icon, title, desc }) {
   return (
     <div

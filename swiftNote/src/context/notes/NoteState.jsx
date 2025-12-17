@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import noteContext from "./NoteContext";
 
 const NoteState = (props) => {
-  const host = import.meta.env.VITE_BACKEND_URL;;
+  const host = import.meta.env.VITE_BACKEND_URL;
   const notesInitial = [];
   const [notes, setNotes] = useState(notesInitial);
 

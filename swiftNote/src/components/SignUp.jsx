@@ -5,7 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
-const SignUp = (props) => {
+const SignUp = ({ showAlert }) => {
+  const navigate = useNavigate();
+
   const [credentials, setCredentials] = useState({
     name: "",
     email: "",
@@ -13,39 +15,49 @@ const SignUp = (props) => {
     cpassword: "",
   });
 
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log("SIGNUP CLICKED"); // ✅ debug
+
     const { name, email, password, cpassword } = credentials;
 
     if (password !== cpassword) {
-      props.showAlert("⚠️ Passwords do not match!", "danger");
+      showAlert("⚠️ Passwords do not match!", "danger");
       return;
     }
+
+    setLoading(true);
 
     try {
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/api/auth/createuser`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({ name, email, password }),
         }
       );
 
       const json = await response.json();
+      console.log("SIGNUP RESPONSE:", json);
 
       if (json.success) {
         localStorage.setItem("token", json.authToken);
-        props.showAlert("Account created Successfully! 🎉", "success");
+        showAlert("Account created successfully 🎉", "success");
         navigate("/");
       } else {
-        props.showAlert("⚠️ Invalid details. Please try again.", "danger");
+        showAlert(json.error || "Invalid details", "danger");
       }
     } catch (error) {
-      props.showAlert("⚠️ Something went wrong!", "danger");
+      console.error(error);
+      showAlert("⚠️ Server error. Try again later.", "danger");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,39 +66,17 @@ const SignUp = (props) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-[#0A0A0F]">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-[#0A0A0F]">
       <form
         onSubmit={handleSubmit}
-        className="
-          w-full max-w-md 
-          bg-[#12121A] 
-          border border-purple-700/30 
-          p-10 rounded-2xl
-        "
+        className="w-full max-w-md bg-[#12121A] border border-purple-700/30 p-10 rounded-2xl"
       >
-
-        {/* SAME LOGO + TITLE AS LOGIN */}
+        {/* LOGO */}
         <div className="flex flex-col items-center mb-6">
-          <img
-            src="/logo.svg"
-            alt="SwiftNote Logo"
-            className="w-20 h-20"
-          />
+          <img src="/logo.svg" alt="SwiftNotes" className="w-20 h-20 mb-2" />
 
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight max-w-4xl drop-shadow-[0_0_25px_rgba(140,0,255,0.35)]">
-            <span
-              className="
-                bg-linear-to-r 
-                from-purple-500 
-                via-fuchsia-500 
-                to-purple-600 
-                bg-clip-text 
-                text-transparent
-                drop-shadow-[0_0_10px_rgba(140,0,255,0.4)]
-              "
-            >
-              SwiftNotes
-            </span>
+          <h1 className="text-5xl font-bold bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600 bg-clip-text text-transparent">
+            SwiftNotes
           </h1>
 
           <p className="text-purple-200/70 text-lg mt-1">
@@ -94,78 +84,61 @@ const SignUp = (props) => {
           </p>
         </div>
 
-        {/* Sign Up Heading */}
+        {/* HEADING */}
         <div className="text-center mb-6">
           <h2 className="text-3xl font-semibold text-white">
             Create Your Account
           </h2>
           <p className="text-purple-200/60 text-sm mt-1">
-            Join SwiftNotes — save ideas, stay organized.
+            Join SwiftNotes — stay organized.
           </p>
         </div>
 
-        {/* Username */}
+        {/* USERNAME */}
         <div className="mb-4">
-          <label className="text-sm font-medium text-purple-200">Username</label>
+          <label className="text-purple-200 text-sm">Username</label>
           <input
             type="text"
             name="name"
             required
             value={credentials.name}
             onChange={onChange}
-            placeholder="Enter your username"
-            className="
-              w-full mt-2 px-4 py-3 rounded-lg
-              bg-[#1A1A22] text-white
-              border border-purple-700/30 placeholder-purple-200/40
-              focus:outline-none focus:ring-2 focus:ring-purple-600
-            "
+            placeholder="Enter username"
+            className="w-full mt-2 px-4 py-3 rounded-lg bg-[#1A1A22] text-white border border-purple-700/30 focus:ring-2 focus:ring-purple-600 outline-none"
           />
         </div>
 
-        {/* Email */}
+        {/* EMAIL */}
         <div className="mb-4">
-          <label className="text-sm font-medium text-purple-200">Email</label>
+          <label className="text-purple-200 text-sm">Email</label>
           <input
             type="email"
             name="email"
             required
             value={credentials.email}
             onChange={onChange}
-            placeholder="Enter your email"
-            className="
-              w-full mt-2 px-4 py-3 rounded-lg
-              bg-[#1A1A22] text-white
-              border border-purple-700/30 placeholder-purple-200/40
-              focus:outline-none focus:ring-2 focus:ring-purple-600
-            "
+            placeholder="Enter email"
+            className="w-full mt-2 px-4 py-3 rounded-lg bg-[#1A1A22] text-white border border-purple-700/30 focus:ring-2 focus:ring-purple-600 outline-none"
           />
         </div>
 
-        {/* Password */}
+        {/* PASSWORD */}
         <div className="mb-4">
-          <label className="text-sm font-medium text-purple-200">Password</label>
+          <label className="text-purple-200 text-sm">Password</label>
           <input
             type="password"
             name="password"
             required
             value={credentials.password}
             onChange={onChange}
-            placeholder="Enter your password"
-            className="
-              w-full mt-2 px-4 py-3 rounded-lg
-              bg-[#1A1A22] text-white
-              border border-purple-700/30 placeholder-purple-200/40
-              focus:outline-none focus:ring-2 focus:ring-purple-600
-            "
+            placeholder="Enter password"
+            className="w-full mt-2 px-4 py-3 rounded-lg bg-[#1A1A22] text-white border border-purple-700/30 focus:ring-2 focus:ring-purple-600 outline-none"
           />
         </div>
 
-        {/* Confirm Password */}
+        {/* CONFIRM PASSWORD */}
         <div className="mb-6">
-          <label className="text-sm font-medium text-purple-200">
-            Confirm Password
-          </label>
+          <label className="text-purple-200 text-sm">Confirm Password</label>
           <input
             type="password"
             name="cpassword"
@@ -173,30 +146,21 @@ const SignUp = (props) => {
             value={credentials.cpassword}
             onChange={onChange}
             placeholder="Confirm password"
-            className="
-              w-full mt-2 px-4 py-3 rounded-lg
-              bg-[#1A1A22] text-white
-              border border-purple-700/30 placeholder-purple-200/40
-              focus:outline-none focus:ring-2 focus:ring-purple-600
-            "
+            className="w-full mt-2 px-4 py-3 rounded-lg bg-[#1A1A22] text-white border border-purple-700/30 focus:ring-2 focus:ring-purple-600 outline-none"
           />
         </div>
 
-        {/* Sign Up Button */}
+        {/* SUBMIT BUTTON */}
         <Button
           type="submit"
-          className="
-            w-full py-3 text-lg rounded-lg
-            bg-purple-700 text-white 
-            hover:bg-purple-800
-            transition-colors
-            flex items-center justify-center gap-2
-          "
+          disabled={loading}
+          className="w-full py-3 text-lg rounded-lg bg-purple-700 hover:bg-purple-800 text-white flex items-center justify-center gap-2"
         >
-          Sign Up <ArrowRight className="w-5 h-5" />
+          {loading ? "Creating Account..." : "Sign Up"}
+          {!loading && <ArrowRight className="w-5 h-5" />}
         </Button>
 
-        {/* Login Redirect */}
+        {/* LOGIN REDIRECT */}
         <p className="text-center text-purple-200/70 mt-5 text-sm">
           Already have an account?{" "}
           <span

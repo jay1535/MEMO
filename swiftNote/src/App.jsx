@@ -11,10 +11,17 @@ import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import DashBoard from "./components/DashBoard";
 import Navbar from "./components/Navbar";
+import NotFound from "./components/NotFound";
+import TaskState from "./context/tasks/taskState";
+import Tasks from "./components/Tasks";
+
+import TaskDashboard from "./components/TaskDashBoard";
+
 
 function App() {
 
   const [alert, setAlert] = useState(null);
+  
 
   const showAlert = (message, type)=>{
       setAlert({
@@ -27,20 +34,28 @@ function App() {
   }
   return (
     <NoteState>
+      <TaskState>
     <Router>
       <Navbar/>
       <Alert alert={alert}/>
-      
-      <Routes>
-        <Route path="/" element={<Home  />} />
-        <Route path="/dashboard" element={<DashBoard showAlert={showAlert} />} /> 
-        <Route path="/about" element={<About />} />
-        <Route path="/notes" element={<Notes showAlert={showAlert}/>} />
-        <Route path="/login" element={<Login showAlert={showAlert} />} />
-        <Route path="/signup" element={<SignUp  showAlert={showAlert}/>} />
-      </Routes>
+    <Routes>
+  <Route path="/" element={<Home />} />
+  <Route path="/dashboard" element={<DashBoard showAlert={showAlert} />} />
+  <Route path="/about" element={<About />} />
+  <Route path="/notes" element={<Notes showAlert={showAlert} />} />
+  <Route path="/tasks" element={<Tasks showAlert={showAlert} />} />
+  <Route path ="/taskDashboard" element = {<TaskDashboard showAlert={showAlert} />} />
+   
+  <Route path="/login" element={<Login showAlert={showAlert} />} />
+  <Route path="/signup" element={<SignUp showAlert={showAlert} />} />
+
+  {/* ⭐ 404 PAGE ROUTE */}
+  <Route path="*" element={<NotFound />} />
+</Routes>
+
       
     </Router>
+    </TaskState>
     </NoteState>
   );
 }
