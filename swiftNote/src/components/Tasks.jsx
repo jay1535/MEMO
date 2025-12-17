@@ -2,8 +2,6 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-
 import TaskItem from "./TaskItem";
 
 import {
@@ -24,14 +22,20 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import TaskContext from "../context/tasks/taskContext";
 
+import TaskContext from "../context/tasks/taskContext";
 
 const Tasks = ({ showAlert }) => {
   const { tasks, getTasks, editTask } = useContext(TaskContext);
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
+  const [task, setTask] = useState({
+    id: "",
+    etitle: "",
+    edescription: "",
+    ereminderAt: "",
+  });
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -42,14 +46,6 @@ const Tasks = ({ showAlert }) => {
     // eslint-disable-next-line
   }, []);
 
-  const [task, setTask] = useState({
-    id: "",
-    etitle: "",
-    edescription: "",
-    ereminderAt: "",
-  });
-
-  /* Open Edit Dialog */
   const updateTask = (currentTask) => {
     setTask({
       id: currentTask._id,
@@ -62,78 +58,66 @@ const Tasks = ({ showAlert }) => {
     setOpen(true);
   };
 
-  /* Save Changes */
   const handleClick = async () => {
     await editTask(task.id, {
       title: task.etitle,
       description: task.edescription,
-      reminderAt: task.ereminderAt || null,
+      reminderAt: task.ereminderAt
+        ? new Date(task.ereminderAt).toISOString()
+        : null,
     });
 
     setOpen(false);
     showAlert("Task updated successfully ✅", "success");
   };
 
-  const onChange = (e) => {
-    setTask({
-      ...task,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const onChange = (e) =>
+    setTask({ ...task, [e.target.name]: e.target.value });
 
   return (
-    <div className="min-h-screen w-full flex justify-center items-start px-6 py-12">
+    <div className="min-h-screen w-full flex justify-center px-6 py-12 bg-gradient-to-br from-[#0f0f1a] via-[#121212] to-[#0a0a14]">
 
-      {/* Outer Tasks Card */}
+      {/* MAIN CARD */}
       <Card
         className="
-          w-full max-w-[1400px] 
-          bg-card/60 border border-border 
-          backdrop-blur-xl rounded-3xl 
-          shadow-[0_0_35px_rgba(140,0,255,0.25)]
-          transition-all duration-300
+          w-full max-w-[1400px]
+          bg-white/5 backdrop-blur-2xl
+          border border-white/10
+          rounded-3xl
+          shadow-[0_0_40px_rgba(140,0,255,0.25)]
         "
       >
-
-        {/* Heading */}
-        <CardHeader>
+        <CardHeader className="pb-2">
           <CardTitle
             className="
-              text-4xl font-bold text-center
-              drop-shadow-[0_0_20px_rgba(140,0,255,0.55)]
-              bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600 
+              text-4xl md:text-5xl text-center font-extrabold
+              bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600
               bg-clip-text text-transparent
+              drop-shadow-[0_0_20px_rgba(140,0,255,0.5)]
             "
           >
             Your Task Command Center 🚀
           </CardTitle>
 
           <p className="text-center text-muted-foreground mt-3">
-            Stay focused, hit deadlines, and turn plans into progress.
+            Organize smarter. Focus deeper. Execute better.
           </p>
         </CardHeader>
 
-        {/* Tasks Grid */}
-        <CardContent className="h-[65vh] overflow-y-auto pr-3 custom-scroll mt-2">
-
+        <CardContent className="h-[65vh] overflow-y-auto mt-6 pr-2 custom-scroll">
           {tasks.length === 0 ? (
-            <div className="w-full text-center py-20">
+            <div className="flex flex-col items-center justify-center h-full text-center">
               <h3
                 className="
-                  text-2xl font-semibold 
-                  bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600 
+                  text-2xl font-semibold
+                  bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600
                   bg-clip-text text-transparent
-                  drop-shadow-[0_0_10px_rgba(140,0,255,0.4)]
                 "
               >
-                No Tasks Yet 🗒️
+                No tasks yet 🗒️
               </h3>
-
-              <p className="mt-2 text-muted-foreground text-base">
-                Create your first task and start making progress —  
-                <span className="text-primary font-medium">
-                  success loves planning.
-                </span>
+              <p className="text-muted-foreground mt-2">
+                Create one and start building momentum.
               </p>
             </div>
           ) : (
@@ -148,7 +132,6 @@ const Tasks = ({ showAlert }) => {
               ))}
             </div>
           )}
-
         </CardContent>
       </Card>
 
@@ -156,86 +139,76 @@ const Tasks = ({ showAlert }) => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
           className="
-            bg-card/80 border border-border text-card-foreground
-            backdrop-blur-2xl rounded-3xl shadow-2xl
-            transition-all duration-500
+            bg-white/10 backdrop-blur-2xl
+            border border-white/15
+            rounded-3xl
+            shadow-[0_0_35px_rgba(140,0,255,0.35)]
           "
         >
           <DialogHeader>
             <DialogTitle
               className="
                 text-xl font-bold
-                bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600 
+                bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600
                 bg-clip-text text-transparent
-                drop-shadow-[0_0_10px_rgba(140,0,255,0.4)]
               "
             >
-              Edit Your Task 🛠️
+              Edit Task ✨
             </DialogTitle>
           </DialogHeader>
 
           <div className="grid gap-4 py-4">
-
-            {/* Title */}
             <div>
-              <Label className="text-sm">Title</Label>
+              <Label className="text-sm text-muted-foreground">Title</Label>
               <Input
-                type="text"
                 name="etitle"
                 value={task.etitle}
                 onChange={onChange}
+                className="mt-1 bg-black/30 border-white/10"
               />
             </div>
 
-            {/* Description */}
             <div>
-              <Label className="text-sm">Description</Label>
+              <Label className="text-sm text-muted-foreground">Description</Label>
               <Input
-                type="text"
                 name="edescription"
                 value={task.edescription}
                 onChange={onChange}
+                className="mt-1 bg-black/30 border-white/10"
               />
             </div>
 
-            {/* Reminder */}
             <div>
-              <Label className="text-sm">Reminder</Label>
+              <Label className="text-sm text-muted-foreground">Reminder</Label>
               <Input
                 type="datetime-local"
                 name="ereminderAt"
                 value={task.ereminderAt}
                 onChange={onChange}
+                className="mt-1 bg-black/30 border-white/10"
               />
             </div>
-
           </div>
 
-          <DialogFooter className="flex justify-between mt-3">
-
+          <DialogFooter className="flex justify-between">
             <Button
               variant="outline"
               onClick={() => setOpen(false)}
-              className="
-                border-primary text-primary 
-                hover:bg-primary/20
-              "
+              className="border-primary text-primary hover:bg-primary/20"
             >
               Cancel
             </Button>
 
             <Button
               onClick={handleClick}
-              disabled={!task.etitle || !task.edescription}
               className="
-                bg-primary text-primary-foreground 
-                hover:bg-primary/80 
-                shadow-[0_0_10px_rgba(140,0,255,0.5)]
+                bg-primary text-primary-foreground
+                hover:bg-primary/80
+                shadow-[0_0_15px_rgba(140,0,255,0.45)]
               "
             >
               Save Changes
             </Button>
-
           </DialogFooter>
         </DialogContent>
       </Dialog>

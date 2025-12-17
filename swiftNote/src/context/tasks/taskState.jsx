@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import TaskContext from "./taskContext";
 
-
 const TaskState = ({ children }) => {
   const host = import.meta.env.VITE_BACKEND_URL;
   const [tasks, setTasks] = useState([]);
 
-  // Get all tasks
+  // ✅ Fetch tasks
   const getTasks = async () => {
-    const response = await fetch(`${host}/api/tasks/fetchtasks`, {
+    const res = await fetch(`${host}/api/tasks/fetchtasks`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -16,13 +15,13 @@ const TaskState = ({ children }) => {
       },
     });
 
-    const json = await response.json();
-    setTasks(json);
+    const data = await res.json();
+    setTasks(data);
   };
 
-  // Add a task
+  // ✅ Create task
   const createTask = async (title, description, reminderAt) => {
-    const response = await fetch(`${host}/api/tasks/addtask`, {
+    const res = await fetch(`${host}/api/tasks/addtask`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,53 +30,40 @@ const TaskState = ({ children }) => {
       body: JSON.stringify({ title, description, reminderAt }),
     });
 
-    const json = await response.json();
-    setTasks([json, ...tasks]);
+    const data = await res.json();
+    setTasks((prev) => [data, ...prev]);
   };
 
-  // Delete a task
+  // ✅ Delete task
   const removeTask = async (id) => {
-    const response = await fetch(
-      `${host}/api/tasks/deletetask/${id}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": localStorage.getItem("token"),
-        },
-      }
-    );
+    await fetch(`${host}/api/tasks/deletetask/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": localStorage.getItem("token"),
+      },
+    });
 
-    const json = await response.json();
-    console.log(json);
-
-    setTasks(tasks.filter((task) => task._id !== id));
+    setTasks((prev) => prev.filter((task) => task._id !== id));
   };
 
-  // Edit a task
-  const editTask = async (id, title, description, reminderAt) => {
-    const response = await fetch(
-      `${host}/api/tasks/updatetask/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": localStorage.getItem("token"),
-        },
-        body: JSON.stringify({ title, description, reminderAt }),
-      }
+  // ✅ Edit task (FORCED UI UPDATE)
+  const editTask = async (id, updatedTask) => {
+    await fetch(`${host}/api/tasks/updatetask/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": localStorage.getItem("token"),
+      },
+      body: JSON.stringify(updatedTask),
+    });
+
+    // 🔥 Update state locally (this is the key fix)
+    setTasks((prev) =>
+      prev.map((task) =>
+        task._id === id ? { ...task, ...updatedTask } : task
+      )
     );
-
-    const json = await response.json();
-    console.log(json);
-
-    const updatedTasks = tasks.map((task) =>
-      task._id === id
-        ? { ...task, title, description, reminderAt }
-        : task
-    );
-
-    setTasks(updatedTasks);
   };
 
   return (
