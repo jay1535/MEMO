@@ -29,7 +29,7 @@ const NotesSchema = new Schema({
   // 🎨 Color
   color: {
     type: String,
-    default: "purple",
+    default: "#0A030A",
   },
 
   date: {
