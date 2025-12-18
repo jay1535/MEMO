@@ -37,6 +37,7 @@ const Tasks = ({ showAlert }) => {
     ereminderAt: "",
   });
 
+  /* ================= AUTH + FETCH ================= */
   useEffect(() => {
     if (localStorage.getItem("token")) {
       getTasks();
@@ -46,6 +47,11 @@ const Tasks = ({ showAlert }) => {
     // eslint-disable-next-line
   }, []);
 
+  const normalizedTasks = tasks
+    .map((t) => ({ ...t, status: t.status ?? "pending" }))
+    .sort((a, b) => (a.status === "pending" ? -1 : 1));
+
+  /* ================= OPEN EDIT ================= */
   const updateTask = (currentTask) => {
     setTask({
       id: currentTask._id,
@@ -58,6 +64,7 @@ const Tasks = ({ showAlert }) => {
     setOpen(true);
   };
 
+  /* ================= SAVE EDIT ================= */
   const handleClick = async () => {
     await editTask(task.id, {
       title: task.etitle,
@@ -68,92 +75,106 @@ const Tasks = ({ showAlert }) => {
     });
 
     setOpen(false);
-    showAlert("Task updated successfully ✅", "success");
+    showAlert("Task updated successfully", "success");
   };
 
   const onChange = (e) =>
     setTask({ ...task, [e.target.name]: e.target.value });
 
   return (
-    <div className="min-h-screen w-full flex justify-center px-6 py-12 bg-gradient-to-br from-[#0f0f1a] via-[#121212] to-[#0a0a14]">
+    <div className="min-h-screen w-full bg-background text-foreground px-6 py-12 flex flex-col items-center">
 
-      {/* MAIN CARD */}
-      <Card
+      {/* ================= TITLE SECTION (SAME AS NOTES) ================= */}
+      <h1
         className="
-          w-full max-w-[1400px]
-          bg-white/5 backdrop-blur-2xl
-          border border-white/10
-          rounded-3xl
-          shadow-[0_0_40px_rgba(140,0,255,0.25)]
+          text-5xl md:text-6xl font-extrabold mb-5 text-center text-primary
+          drop-shadow-[0_0_30px_rgba(155,0,255,0.6)]
         "
       >
-        <CardHeader className="pb-2">
-          <CardTitle
-            className="
-              text-4xl md:text-5xl text-center font-extrabold
-              bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600
-              bg-clip-text text-transparent
-              drop-shadow-[0_0_20px_rgba(140,0,255,0.5)]
-            "
-          >
-            Your Task Command Center 🚀
-          </CardTitle>
+        Plan Your Tasks<br />Effortlessly & Clearly
+      </h1>
 
-          <p className="text-center text-muted-foreground mt-3">
-            Organize smarter. Focus deeper. Execute better.
-          </p>
-        </CardHeader>
+      <p className="max-w-2xl text-center text-muted-foreground text-lg md:text-xl mb-12 leading-relaxed">
+        A beautifully designed space to plan, track, and complete your daily
+        tasks — keeping you focused and productive.
+      </p>
 
-        <CardContent className="h-[65vh] overflow-y-auto mt-6 pr-2 custom-scroll">
-          {tasks.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-center">
-              <h3
-                className="
-                  text-2xl font-semibold
-                  bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600
-                  bg-clip-text text-transparent
-                "
-              >
-                No tasks yet 🗒️
-              </h3>
-              <p className="text-muted-foreground mt-2">
-                Create one and start building momentum.
-              </p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
-              {tasks.map((t) => (
-                <TaskItem
-                  key={t._id}
-                  task={t}
-                  updateTask={updateTask}
-                  showAlert={showAlert}
-                />
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
+      {/* ================= TASKS SECTION ================= */}
+     <div className="w-full max-w-6xl">
+  <Card
+    className="
+      bg-card/70 backdrop-blur-xl
+      border border-border
+      rounded-3xl shadow-xl
+    "
+  >
+    {/* ===== Header ===== */}
+    <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <CardTitle
+        className="
+          text-2xl font-semibold text-primary
+          drop-shadow-[0_0_15px_rgba(155,0,255,0.45)]
+        "
+      >
+        Your Tasks
+      </CardTitle>
 
-      {/* EDIT TASK DIALOG */}
+      {/* Progress Indicator */}
+      <span className="text-sm text-muted-foreground">
+        {normalizedTasks.filter(t => t.status === "completed").length} /{" "}
+        {normalizedTasks.length} completed
+      </span>
+    </CardHeader>
+
+    {/* ===== Content ===== */}
+    <CardContent className="max-h-[65vh] overflow-y-auto custom-scroll space-y-5">
+  {normalizedTasks.length === 0 ? (
+    <div className="py-24 text-center">
+      <h3
+        className="
+          text-2xl font-semibold
+          bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600
+          bg-clip-text text-transparent
+        "
+      >
+        No tasks yet
+      </h3>
+      <p className="text-muted-foreground mt-4 max-w-md mx-auto">
+        Start by adding your first task and take control of your day.
+      </p>
+    </div>
+  ) : (
+    normalizedTasks.map((t) => (
+      <TaskItem
+        key={t._id}
+        task={t}
+        updateTask={updateTask}
+        showAlert={showAlert}
+      />
+    ))
+  )}
+</CardContent>
+
+  </Card>
+</div>
+
+
+      {/* ================= EDIT TASK DIALOG ================= */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
           className="
-            bg-white/10 backdrop-blur-2xl
-            border border-white/15
-            rounded-3xl
-            shadow-[0_0_35px_rgba(140,0,255,0.35)]
+            bg-card border border-border backdrop-blur-xl
+            rounded-2xl shadow-xl
           "
         >
           <DialogHeader>
             <DialogTitle
               className="
-                text-xl font-bold
-                bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600
-                bg-clip-text text-transparent
+                text-xl font-bold text-primary
+                drop-shadow-[0_0_15px_rgba(155,0,255,0.45)]
               "
             >
-              Edit Task ✨
+              Edit Your Task
             </DialogTitle>
           </DialogHeader>
 
@@ -164,48 +185,40 @@ const Tasks = ({ showAlert }) => {
                 name="etitle"
                 value={task.etitle}
                 onChange={onChange}
-                className="mt-1 bg-black/30 border-white/10"
               />
             </div>
 
             <div>
-              <Label className="text-sm text-muted-foreground">Description</Label>
+              <Label className="text-sm text-muted-foreground">
+                Description
+              </Label>
               <Input
                 name="edescription"
                 value={task.edescription}
                 onChange={onChange}
-                className="mt-1 bg-black/30 border-white/10"
               />
             </div>
 
             <div>
-              <Label className="text-sm text-muted-foreground">Reminder</Label>
+              <Label className="text-sm text-muted-foreground">
+                Reminder
+              </Label>
               <Input
                 type="datetime-local"
                 name="ereminderAt"
                 value={task.ereminderAt}
                 onChange={onChange}
-                className="mt-1 bg-black/30 border-white/10"
               />
             </div>
           </div>
 
           <DialogFooter className="flex justify-between">
-            <Button
-              variant="outline"
-              onClick={() => setOpen(false)}
-              className="border-primary text-primary hover:bg-primary/20"
-            >
+            <Button variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-
             <Button
               onClick={handleClick}
-              className="
-                bg-primary text-primary-foreground
-                hover:bg-primary/80
-                shadow-[0_0_15px_rgba(140,0,255,0.45)]
-              "
+              disabled={!task.etitle || !task.edescription}
             >
               Save Changes
             </Button>

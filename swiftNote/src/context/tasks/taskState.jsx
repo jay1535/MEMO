@@ -5,21 +5,17 @@ const TaskState = ({ children }) => {
   const host = import.meta.env.VITE_BACKEND_URL;
   const [tasks, setTasks] = useState([]);
 
-  // ✅ Fetch tasks
+  /* ================= GET TASKS ================= */
   const getTasks = async () => {
     const res = await fetch(`${host}/api/tasks/fetchtasks`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("token"),
-      },
+      headers: { "auth-token": localStorage.getItem("token") },
     });
 
     const data = await res.json();
     setTasks(data);
   };
 
-  // ✅ Create task
+  /* ================= CREATE TASK ================= */
   const createTask = async (title, description, reminderAt) => {
     const res = await fetch(`${host}/api/tasks/addtask`, {
       method: "POST",
@@ -30,26 +26,45 @@ const TaskState = ({ children }) => {
       body: JSON.stringify({ title, description, reminderAt }),
     });
 
-    const data = await res.json();
-    setTasks((prev) => [data, ...prev]);
+    const newTask = await res.json(); // ✅ await OUTSIDE
+    setTasks((prev) => [newTask, ...prev]);
   };
 
-  // ✅ Delete task
-  const removeTask = async (id) => {
-    await fetch(`${host}/api/tasks/deletetask/${id}`, {
-      method: "DELETE",
+  /* ================= TOGGLE STATUS ================= */
+  const toggleTaskStatus = async (id, currentStatus) => {
+    const newStatus =
+      currentStatus === "completed" ? "pending" : "completed";
+
+    // Optimistic UI update
+    setTasks((prev) =>
+      prev.map((t) =>
+        t._id === id ? { ...t, status: newStatus } : t
+      )
+    );
+
+    await fetch(`${host}/api/tasks/updatetask/${id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "auth-token": localStorage.getItem("token"),
       },
+      body: JSON.stringify({ status: newStatus }),
     });
-
-    setTasks((prev) => prev.filter((task) => task._id !== id));
   };
 
-  // ✅ Edit task (FORCED UI UPDATE)
+  /* ================= DELETE TASK ================= */
+  const removeTask = async (id) => {
+    await fetch(`${host}/api/tasks/deletetask/${id}`, {
+      method: "DELETE",
+      headers: { "auth-token": localStorage.getItem("token") },
+    });
+
+    setTasks((prev) => prev.filter((t) => t._id !== id));
+  };
+
+  /* ================= EDIT TASK ================= */
   const editTask = async (id, updatedTask) => {
-    await fetch(`${host}/api/tasks/updatetask/${id}`, {
+    const res = await fetch(`${host}/api/tasks/updatetask/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -58,10 +73,11 @@ const TaskState = ({ children }) => {
       body: JSON.stringify(updatedTask),
     });
 
-    // 🔥 Update state locally (this is the key fix)
+    const updated = await res.json();
+
     setTasks((prev) =>
-      prev.map((task) =>
-        task._id === id ? { ...task, ...updatedTask } : task
+      prev.map((t) =>
+        t._id === updated._id ? { ...t, ...updated } : t
       )
     );
   };
@@ -74,6 +90,7 @@ const TaskState = ({ children }) => {
         createTask,
         removeTask,
         editTask,
+        toggleTaskStatus,
       }}
     >
       {children}

@@ -25,7 +25,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-
 const Notes = ({ showAlert }) => {
   const { notes, getNotes, editNote } = useContext(noteContext);
   const navigate = useNavigate();
@@ -60,176 +59,145 @@ const Notes = ({ showAlert }) => {
   const handleClick = () => {
     editNote(note.id, note.etitle, note.edescription, note.etag);
     setOpen(false);
-    showAlert("Note updated successfully 🎉", "success");
+    showAlert("Note updated successfully", "success");
   };
 
-  const onChange = (e) => {
-    setNote({
-      ...note,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const onChange = (e) =>
+    setNote({ ...note, [e.target.name]: e.target.value });
 
   return (
-    <div className="min-h-screen w-full flex justify-center items-start px-6 py-12">
+    <div className="min-h-screen w-full bg-background text-foreground px-6 py-12 flex flex-col items-center">
 
-      {/* Outer Notes Card */}
-      <Card
+      {/* ================= TITLE SECTION (ABOUT PAGE STYLE) ================= */}
+      <h1
         className="
-          w-full max-w-[1400px] 
-          bg-card/60 border border-border 
-          backdrop-blur-xl rounded-3xl 
-          shadow-[0_0_35px_rgba(140,0,255,0.25)]
-          transition-all duration-300
+          text-5xl md:text-6xl font-extrabold mb-5 text-center text-primary
+          drop-shadow-[0_0_30px_rgba(155,0,255,0.6)]
         "
       >
+        Capture Your Ideas<br />Effortlessly & Clearly
+      </h1>
 
-        {/* Heading */}
-        <CardHeader>
-          <CardTitle
-            className="
-              text-4xl font-bold text-center
-              drop-shadow-[0_0_20px_rgba(140,0,255,0.55)]
-              bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600 
-              bg-clip-text text-transparent
-            "
-          >
-            Your Personal Notes Hub ✨
-          </CardTitle>
+      <p className="max-w-2xl text-center text-muted-foreground text-lg md:text-xl mb-12 leading-relaxed">
+        A beautifully designed space to write, organize, and revisit your notes —
+        keeping your thoughts structured and always accessible.
+      </p>
 
-          <p className="text-center text-muted-foreground mt-3">
-            Keep your ideas safe, organized, and always within reach.
-          </p>
-        </CardHeader>
+      {/* ================= NOTES SECTION ================= */}
+      <div className="w-full max-w-6xl">
+        <Card
+          className="
+            bg-card border border-border backdrop-blur-xl
+            rounded-2xl shadow-xl
+          "
+        >
+          <CardHeader>
+            <CardTitle
+              className="
+                text-2xl font-semibold text-primary
+                drop-shadow-[0_0_15px_rgba(155,0,255,0.45)]
+              "
+            >
+              Your Notes
+            </CardTitle>
+          </CardHeader>
 
-        {/* Notes Grid */}
-        <CardContent className="h-[65vh] overflow-y-auto pr-3 custom-scroll mt-2">
+          <CardContent className="max-h-[65vh] overflow-y-auto custom-scroll">
+            {notes.length === 0 ? (
+              <div className="py-20 text-center">
+                <h3
+                  className="
+                    text-2xl font-semibold
+                    bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600
+                    bg-clip-text text-transparent
+                  "
+                >
+                  No notes yet
+                </h3>
+                <p className="text-muted-foreground mt-3">
+                  Start by creating your first note — your ideas deserve a place.
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {notes.map((n) => (
+                  <Noteitem
+                    key={n._id}
+                    updateNote={updateNote}
+                    showAlert={showAlert}
+                    note={n}
+                  />
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
 
-          {notes.length === 0 ? (
-            <div className="w-full text-center py-20">
-              <h3
-                className="
-                  text-2xl font-semibold 
-                  bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600 
-                  bg-clip-text text-transparent
-                  drop-shadow-[0_0_10px_rgba(140,0,255,0.4)]
-                "
-              >
-                No Notes Yet 📭
-              </h3>
-
-              <p className="mt-2 text-muted-foreground text-base">
-                Start by creating your first note —  
-                <span className="text-primary font-medium">your ideas are waiting!</span>
-              </p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
-              {notes.map((n) => (
-                <Noteitem
-                  key={n._id}
-                  updateNote={updateNote}
-                  showAlert={showAlert}
-                  note={n}
-                />
-              ))}
-            </div>
-          )}
-
-        </CardContent>
-      </Card>
-
-      {/* EDIT DIALOG */}
+      {/* ================= EDIT NOTE DIALOG ================= */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
           className="
-            bg-card/80 border border-border text-card-foreground
-            backdrop-blur-2xl rounded-3xl shadow-2xl
-            transition-all duration-500
+            bg-card border border-border backdrop-blur-xl
+            rounded-2xl shadow-xl
           "
         >
           <DialogHeader>
             <DialogTitle
               className="
-                text-xl font-bold
-                bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600 
-                bg-clip-text text-transparent
-                drop-shadow-[0_0_10px_rgba(140,0,255,0.4)]
+                text-xl font-bold text-primary
+                drop-shadow-[0_0_15px_rgba(155,0,255,0.45)]
               "
             >
-              Edit Your Note ✏️
+              Edit Your Note
             </DialogTitle>
           </DialogHeader>
 
           <div className="grid gap-4 py-4">
-
-            {/* Title */}
             <div>
-              <Label className="text-sm text-foreground">Title</Label>
+              <Label className="text-sm text-muted-foreground">Title</Label>
               <Input
                 type="text"
                 name="etitle"
                 value={note.etitle}
                 onChange={onChange}
-                className="bg-popover text-popover-foreground"
               />
             </div>
 
-            {/* Description */}
             <div>
-              <Label className="text-sm text-foreground">Description</Label>
+              <Label className="text-sm text-muted-foreground">
+                Description
+              </Label>
               <Input
                 type="text"
                 name="edescription"
                 value={note.edescription}
                 onChange={onChange}
-                className="bg-popover text-popover-foreground"
               />
             </div>
 
-            {/* Tag */}
             <div>
-              <Label className="text-sm text-foreground">Tag</Label>
+              <Label className="text-sm text-muted-foreground">Tag</Label>
               <Input
                 type="text"
                 name="etag"
                 value={note.etag}
                 onChange={onChange}
-                className="bg-popover text-popover-foreground"
               />
             </div>
-
           </div>
 
-          <DialogFooter className="flex justify-between mt-3">
-
-            <Button
-              variant="outline"
-              onClick={() => setOpen(false)}
-              className="
-                border-primary text-primary 
-                hover:bg-primary/20 hover:text-primary 
-                transition-all
-              "
-            >
+          <DialogFooter className="flex justify-between">
+            <Button variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-
             <Button
               onClick={handleClick}
               disabled={!note.etitle || !note.edescription}
-              className="
-                bg-primary text-primary-foreground 
-                hover:bg-primary/80 
-                shadow-[0_0_10px_rgba(140,0,255,0.5)]
-                transition-all
-              "
             >
               Save Changes
             </Button>
-
           </DialogFooter>
-
         </DialogContent>
       </Dialog>
     </div>

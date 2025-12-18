@@ -1,131 +1,173 @@
 "use client";
 
 import React, { useContext } from "react";
-
-
-import { Pencil, Trash2, Clock, Bell } from "lucide-react";
 import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
+  Pencil,
+  Trash2,
+  Clock,
+  CheckCircle2,
+  RotateCcw,
+} from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import TaskContext from "../context/tasks/taskContext";
 
 const TaskItem = ({ task, updateTask, showAlert }) => {
-  const { removeTask } = useContext(TaskContext);
+  const { removeTask, toggleTaskStatus } = useContext(TaskContext);
+  const isCompleted = task.status === "completed";
+
+  const formattedDate = task.date
+    ? new Date(task.date).toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })
+    : "—";
 
   return (
-    <Card
-      className="
-        p-5 rounded-2xl
-        bg-card/60 backdrop-blur-xl
-        border-3 border-border shadow-sm
-        hover:shadow-md 
+    <div
+      className={`
+        relative group flex gap-6
+        p-4 rounded-3xl border
+        bg-card/70 backdrop-blur-xl
         transition-all duration-300
-        h-[270px] flex flex-col justify-between
-      "
+        ${
+          isCompleted
+            ? "opacity-70 border-border"
+            : "hover:-translate-y-1 hover:shadow-[0_0_35px_rgba(155,0,255,0.25)]"
+        }
+      `}
     >
-      {/* Title */}
-      <CardHeader className="p-0">
-        <CardTitle
-          className="
-            text-2xl font-bold leading-snug tracking-tight 
-            bg-linear-to-r from-purple-500 via-fuchsia-500 to-purple-600
-            bg-clip-text text-transparent
-            line-clamp-1 select-none
-          "
+      {/* STATUS ACCENT */}
+      <span
+        className={`
+          absolute left-0 top-0 h-full w-1 rounded-l-3xl
+          ${
+            isCompleted
+              ? "bg-green-500/60"
+              : "bg-yellow-500/60"
+          }
+        `}
+      />
+
+      {/* CONTENT */}
+      <div className="flex-1 min-w-0 pl-2">
+        {/* TITLE */}
+        <h3
+          className={`text-lg font-semibold tracking-tight ${
+            isCompleted
+              ? "line-through text-muted-foreground"
+              : "text-foreground"
+          }`}
         >
           {task.title}
-        </CardTitle>
-      </CardHeader>
+        </h3>
 
-      {/* Description */}
-      <CardContent className="p-0 mt-2">
-        <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
-          {task.description || "No description provided"}
-        </p>
-
-        {/* Metadata */}
-        <div className="mt-4 flex items-center justify-between text-xs">
-          {/* Reminder */}
-          <div
+        {/* DESCRIPTION (ON HOVER) */}
+        {!isCompleted && task.description && (
+          <p
             className="
-              flex items-center gap-1 
-              px-2 py-[3px]
-              rounded-full 
-              bg-primary/10 text-primary
-              border border-primary/20 
-              font-medium text-[11px]
-              w-fit
+              mt-2 text-sm text-muted-foreground leading-relaxed
+              max-h-0 opacity-0 overflow-hidden
+              group-hover:max-h-24 group-hover:opacity-100
+              transition-all duration-300
             "
           >
-            <Bell className="w-3 h-3" />
-            {task.reminderAt
-              ? new Date(task.reminderAt).toLocaleString("en-IN", {
-                  day: "2-digit",
-                  month: "short",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })
-              : "No reminder"}
-          </div>
+            {task.description}
+          </p>
+        )}
 
-          {/* Created Date */}
-          <div className="flex items-center gap-1 text-muted-foreground">
+        {/* META */}
+        <div className="flex items-center gap-4 mt-4 text-xs">
+          <span className="flex items-center gap-1 text-muted-foreground">
             <Clock className="w-3 h-3" />
-            {new Date(task.date).toLocaleDateString("en-IN", {
-              day: "2-digit",
-              month: "short",
-              year: "numeric",
-            })}
-          </div>
-        </div>
+            {formattedDate}
+          </span>
 
-        {/* Actions */}
-        <div
-          className="
-            mt-5 pt-3 
-            border-t border-border/40 
-            flex items-center justify-between
-          "
+          <span
+            className={`
+              px-3 py-1 rounded-full font-medium tracking-wide
+              ${
+                isCompleted
+                  ? "bg-green-500/20 text-green-400"
+                  : "bg-yellow-500/20 text-yellow-400"
+              }
+            `}
+          >
+            {isCompleted ? "Completed" : "Pending"}
+          </span>
+        </div>
+      </div>
+
+      {/* ACTIONS */}
+      <div className="flex items-center gap-2">
+        {/* TOGGLE */}
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => toggleTaskStatus(task._id, task.status)}
+          className={`
+            transition-all
+            ${
+              isCompleted
+                ? "border-yellow-500 text-yellow-400 hover:bg-yellow-500 hover:text-black"
+                : "border-green-500 text-green-400 hover:bg-green-500 hover:text-black"
+            }
+          `}
         >
-          {/* Edit */}
-          <Button
-            variant="outline"
-            onClick={() => updateTask(task)}
-            className="
-              flex items-center gap-2 
-              border-primary text-primary
-              hover:bg-primary hover:text-white
-              transition-all
-            "
-          >
-            <Pencil className="w-4 h-4" />
-            Edit
-          </Button>
+          {isCompleted ? (
+            <>
+              <RotateCcw className="w-4 h-4 mr-1" />
+              Undo
+            </>
+          ) : (
+            <>
+              <CheckCircle2 className="w-4 h-4 mr-1" />
+              Done
+            </>
+          )}
+        </Button>
 
-          {/* Delete */}
-          <Button
-            variant="outline"
-            onClick={() => {
-              removeTask(task._id);
-              showAlert("Task deleted successfully", "success");
-            }}
-            className="
-              flex items-center gap-2 
-              border-red-500 text-red-500
-              hover:bg-red-600 hover:text-white
-              transition-all
-            "
-          >
-            <Trash2 className="w-4 h-4" />
-            Delete
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+        {/* EDIT */}
+        <Button
+          size="sm"
+          variant="outline"
+          disabled={isCompleted}
+          onClick={() => updateTask(task)}
+          className={`
+            border-primary text-primary
+            ${
+              isCompleted
+                ? "opacity-40 cursor-not-allowed"
+                : "hover:bg-primary hover:text-white"
+            }
+          `}
+        >
+          <Pencil className="w-4 h-4" />
+        </Button>
+
+        {/* DELETE */}
+        <Button
+          size="sm"
+          variant="outline"
+          disabled={isCompleted}
+          onClick={() => {
+            removeTask(task._id);
+            showAlert("Task deleted", "success");
+          }}
+          className={`
+            border-red-500 text-red-400
+            ${
+              isCompleted
+                ? "opacity-40 cursor-not-allowed"
+                : "hover:bg-red-600 hover:text-white"
+            }
+          `}
+        >
+          <Trash2 className="w-4 h-4" />
+        </Button>
+      </div>
+    </div>
   );
 };
 
