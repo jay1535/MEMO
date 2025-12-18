@@ -1,29 +1,41 @@
 const mongoose = require("mongoose");
-const {Schema} = mongoose;
+const { Schema } = mongoose;
 
 const NotesSchema = new Schema({
-    user:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  tag: {
+    type: String,
+    default: "general",
+  },
 
-    },
-    title:{
-        type:String,
-        required:true
-    },
-    description:{
-        type:String,
-        required:true,
-        unique:true
-    },
-    tag:{
-        type:String,
-        default:"general"
-    },
-    date:{
-        type:Date,
-        default:Date.now
-    }
-})
+  // ⭐ Pin / Favorite
+  isFavorite: {
+    type: Boolean,
+    default: false,
+  },
 
-module.exports = mongoose.model('notes',NotesSchema)
+  // 🎨 Color
+  color: {
+    type: String,
+    default: "purple",
+  },
+
+  date: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+module.exports = mongoose.model("notes", NotesSchema);
