@@ -1,7 +1,7 @@
 # 📝 SwiftNote
 
-**Memo** is a simple and intuitive **note-taking app** designed to help users organize their thoughts, tasks, and ideas efficiently.  
-With Memo, you can quickly create, edit, and manage notes with ease.
+**SwiftNote** is a simple and intuitive **note-taking app** designed to help users organize their thoughts, tasks, and ideas efficiently.  
+With swiftNote, you can quickly create, edit, and manage notes with ease.
 
 ---
 
@@ -17,18 +17,12 @@ With Memo, you can quickly create, edit, and manage notes with ease.
 
 ### 🚀 Features
 
-- ✅ Create, edit, and delete notes  
+- ✅ Create, edit, and delete notes, tasks  
 - ✅ Responsive and user-friendly UI  
 - ✅ Stores notes in MongoDB database  
 - ✅ Fast and lightweight backend with Node.js + Express  
-- ✅ Styled with Bootstrap 5 for modern look & feel  
-
----
-
-### 📸 Screenshots
-
-*(Add your screenshots here and place them in a `/screenshots/` folder.)*
-
+- ✅ Styled with Bootstrap 5 for modern look & feel
+- 
 ---
 
 ### 🛠️ Getting Started
@@ -68,7 +62,7 @@ npm start
 
 ### 🤝 Contributing
 
-We welcome contributions to **Memo**!  
+We welcome contributions to **swiftNote**!  
 If you have ideas for improvements, find a bug, or want to add a feature, feel free to open an issue or submit a pull request.  
 
 ---
