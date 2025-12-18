@@ -17,18 +17,12 @@ With Memo, you can quickly create, edit, and manage notes with ease.
 
 ### 🚀 Features
 
-- ✅ Create, edit, and delete notes  
+- ✅ Create, edit, and delete notes, tasks  
 - ✅ Responsive and user-friendly UI  
 - ✅ Stores notes in MongoDB database  
 - ✅ Fast and lightweight backend with Node.js + Express  
-- ✅ Styled with Bootstrap 5 for modern look & feel  
-
----
-
-### 📸 Screenshots
-
-*(Add your screenshots here and place them in a `/screenshots/` folder.)*
-
+- ✅ Styled with Bootstrap 5 for modern look & feel
+- 
 ---
 
 ### 🛠️ Getting Started
