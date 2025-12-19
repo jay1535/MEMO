@@ -19,29 +19,46 @@ const port = process.env.PORT || 5000;
 // --------------------
 // Middleware
 // --------------------
+
+// Parse JSON
 app.use(express.json());
 
-// ✅ CORS (STABLE)
-const corsOptions = {
-  origin: [
-    "http://localhost:5173",
-    "http://localhost:5174",
-    "http://localhost:3000",
-    "https://swiftnotes-lilac.vercel.app",
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "auth-token"],
-  credentials: true,
-};
+// Allowed Frontend Origins
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://swiftnotes-lilac.vercel.app",
+];
 
-app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+// CORS Configuration
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow server-to-server or Postman
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      console.log("❌ CORS BLOCKED:", origin);
+      return callback(new Error("Not allowed by CORS"));
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "auth-token"],
+    credentials: true,
+  })
+);
+
+// Handle preflight requests (VERY IMPORTANT)
+app.options("*", cors());
 
 // --------------------
 // Routes
 // --------------------
+
 app.get("/", (req, res) => {
-  res.send("🚀 SwiftNotes API is running");
+  res.send("API running 🚀");
 });
 
 app.use("/api/auth", authRoutes);
@@ -49,14 +66,9 @@ app.use("/api/notes", notesRoutes);
 app.use("/api/tasks", taskRoutes);
 
 // --------------------
-// Error handler
+// Start Server
 // --------------------
-app.use((err, req, res, next) => {
-  console.error("🔥 SERVER ERROR:", err.message);
-  res.status(500).json({ error: "Internal Server Error" });
-});
 
-// --------------------
 app.listen(port, () => {
   console.log(`✅ Server running on port ${port}`);
 });
