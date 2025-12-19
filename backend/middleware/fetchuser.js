@@ -1,21 +1,26 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const JWT_SECRET = "ANY_JWT_SECRET";
+const jwt = require("jsonwebtoken");
 
+const fetchuser = (req, res, next) => {
+  const token = req.header("auth-token");
 
-const fetchuser = (req, res, next)=>{
-    const token = req.header('auth-token')
-    if(!token) {
-        res.status(401).send({message: "Please authenticate."})  
-    }
-    try  {
-    const data = jwt.verify(token, JWT_SECRET)
+  // ✅ Stop execution immediately if no token
+  if (!token) {
+    return res.status(401).json({
+      error: "Authentication token missing",
+    });
+  }
+
+  try {
+    // ✅ Use ENV secret (same as auth route)
+    const data = jwt.verify(token, process.env.JWT_SECRET);
+
     req.user = data.user;
     next();
-}
-    catch(error){
-        res.status(401).send({message: "Please authenticate."})  
-    }
-}
+  } catch (error) {
+    return res.status(401).json({
+      error: "Invalid or expired token",
+    });
+  }
+};
 
-module.exports=fetchuser;
+module.exports = fetchuser;

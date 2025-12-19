@@ -9,28 +9,19 @@ const authRoutes = require("./routes/auth");
 const notesRoutes = require("./routes/notes");
 const taskRoutes = require("./routes/tasks");
 
-// --------------------
-// Connect to MongoDB
-// --------------------
+// Connect DB
 connectToMongo();
 console.log("🧠 ACTIVE DB:", mongoose.connection.name);
 
-// --------------------
-// App Init
-// --------------------
 const app = express();
 const port = process.env.PORT || 5000;
 
 // --------------------
 // Middleware
 // --------------------
-
-// Parse JSON
 app.use(express.json());
 
-// --------------------
-// ✅ CORS CONFIG (FIXED)
-// --------------------
+// ✅ CORS (STABLE)
 const corsOptions = {
   origin: [
     "http://localhost:5173",
@@ -43,10 +34,7 @@ const corsOptions = {
   credentials: true,
 };
 
-// Apply CORS
 app.use(cors(corsOptions));
-
-// Explicitly handle preflight
 app.options("*", cors(corsOptions));
 
 // --------------------
@@ -61,15 +49,13 @@ app.use("/api/notes", notesRoutes);
 app.use("/api/tasks", taskRoutes);
 
 // --------------------
-// Global Error Handler
+// Error handler
 // --------------------
 app.use((err, req, res, next) => {
-  console.error("🔥 Server Error:", err.message);
+  console.error("🔥 SERVER ERROR:", err.message);
   res.status(500).json({ error: "Internal Server Error" });
 });
 
-// --------------------
-// Start Server
 // --------------------
 app.listen(port, () => {
   console.log(`✅ Server running on port ${port}`);
